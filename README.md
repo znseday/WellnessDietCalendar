@@ -10,10 +10,9 @@ __by Tsynikin Sergey (Цыникин Сергей Анатольевич)__
 
 Программа позволяет создавать и редактировать базу данных о пищевой ценности продуктов питания и составлять на базе них составные блюда (рецепты). В календаре можно вести дневник потребления продуктов/блюд с подсчетом их пищевой ценности.
 
-![Screenshot](https://)
-![Screenshot](https://)
-![Screenshot](https://)
-![Screenshot](https://)
+![Screenshot](https://github.com/znseday/WellnessDietCalendar/blob/master/Doc/Screenshots/Calendar.png)
+![Screenshot](https://github.com/znseday/WellnessDietCalendar/blob/master/Doc/Screenshots/Base.png)
+![Screenshot](https://github.com/znseday/WellnessDietCalendar/blob/master/Doc/Screenshots/Dish.png)
 
 
 #### Документация
