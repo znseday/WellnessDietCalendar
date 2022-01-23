@@ -16,9 +16,9 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->MainFormOnTaskBar = true;
 		Application->Title = "Wellness Diet Calendar (by TsynkinSA)";
 		Application->CreateForm(__classid(TfrmMain), &frmMain);
-		Application->CreateForm(__classid(TfrmBasesAddEdit), &frmBasesAddEdit);
-		Application->CreateForm(__classid(TfrmPreparedsAddEdit), &frmPreparedsAddEdit);
-		Application->Run();
+         Application->CreateForm(__classid(TfrmBasesAddEdit), &frmBasesAddEdit);
+         Application->CreateForm(__classid(TfrmPreparedsAddEdit), &frmPreparedsAddEdit);
+         Application->Run();
 	}
 	catch (Exception &exception)
 	{

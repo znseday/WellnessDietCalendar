@@ -6,6 +6,8 @@
 #include "FormPreparedAddEdit.h"
 #include "FormMainWellness.h"
 
+#include "Misc.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -124,19 +126,65 @@ void __fastcall TfrmPreparedsAddEdit::btnDoneClick(TObject *Sender)
     if (rbFinished->Checked)
     {
         Prepared.List.clear();
-
     }
     else if (rbBuild->Checked)
     {
 		//
 	}
 
-	Prepared.Finished.B = StrToFloatDef( EditB->Text, 0 );
-	Prepared.Finished.J = StrToFloatDef( EditJ->Text, 0 );
-	Prepared.Finished.U = StrToFloatDef( EditU->Text, 0 );
-	Prepared.Finished.K = StrToFloatDef( EditK->Text, 0 );
-	Prepared.Finished.M = StrToFloatDef( EditM->Text, 0 );
-	Prepared.Finished.Cost = StrToFloatDef( EditCost->Text, 0 );
+    String t = EditB->Text;
+    CorrectDecSeparator(t);
+	Prepared.Finished.B = StrToFloatDef( t, -1 );
+    if (Prepared.Finished.B < 0)
+    {
+        ShowMessage(L"Неверно задано кол-во белков");
+        return;
+    }
+
+    t = EditJ->Text;
+    CorrectDecSeparator(t);
+	Prepared.Finished.J = StrToFloatDef( t, -1 );
+    if (Prepared.Finished.J < 0)
+    {
+        ShowMessage(L"Неверно задано кол-во жиров");
+        return;
+    }
+
+    t = EditU->Text;
+    CorrectDecSeparator(t);
+	Prepared.Finished.U = StrToFloatDef( t, -1 );
+    if (Prepared.Finished.U < 0)
+    {
+        ShowMessage(L"Неверно задано кол-во углеводов");
+        return;
+    }
+
+    t = EditK->Text;
+    CorrectDecSeparator(t);
+	Prepared.Finished.K = StrToFloatDef( t, -1 );
+    if (Prepared.Finished.K < 0)
+    {
+        ShowMessage(L"Неверно задано кол-во калорий");
+        return;
+    }
+
+    t = EditM->Text;
+    CorrectDecSeparator(t);
+	Prepared.Finished.M = StrToFloatDef( t, -1 );
+    if (Prepared.Finished.M < 0)
+    {
+        ShowMessage(L"Неверно задана масса");
+        return;
+    }
+
+    t = EditCost->Text;
+    CorrectDecSeparator(t);
+	Prepared.Finished.Cost = StrToFloatDef( t, -1 );
+    if (Prepared.Finished.Cost < 0)
+    {
+        ShowMessage(L"Неверно задана стоимость");
+        return;
+    }
 
 	if (StateIsNew)
 	{
@@ -261,7 +309,6 @@ void __fastcall TfrmPreparedsAddEdit::btnReCalcClick(TObject *Sender)
 
 void __fastcall TfrmPreparedsAddEdit::btnAddFromBasesClick(TObject *Sender)
 {
-
 	String Name = EditSearchBases->Text;
 
 	if (! pBases->CheckBaseExists( Name.c_str()) )
@@ -275,7 +322,13 @@ void __fastcall TfrmPreparedsAddEdit::btnAddFromBasesClick(TObject *Sender)
 		return;
 	}
 
-	float m = StrToFloatDef(res, 0);
+    CorrectDecSeparator(res);
+	float m = StrToFloatDef(res, -1);
+    if (m < 0)
+    {
+        ShowMessage(L"Некорректно указана масса");
+        return;
+    }
 
 	Prepared.List.push_back(std::make_pair(Name.c_str(), m));
 
@@ -304,7 +357,13 @@ void __fastcall TfrmPreparedsAddEdit::btnEditMClick(TObject *Sender)
 		return;
 	}
 
-	m = StrToFloatDef(res, 0);
+    CorrectDecSeparator(res);
+	m = StrToFloatDef(res, -1);
+    if (m < 0)
+    {
+        ShowMessage(L"Некорректно указана масса");
+        return;
+    }
 
 	for (auto it = Prepared.List.begin(); it != Prepared.List.end(); ++it)
 	{

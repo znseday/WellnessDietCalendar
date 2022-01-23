@@ -8,6 +8,9 @@
 #include "FormMainWellness.h"
 #include "FormBasesAddEdit.h"
 #include "FormPreparedAddEdit.h"
+
+#include "Misc.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "ccalendr"
@@ -95,11 +98,36 @@ void __fastcall TfrmMain::ActionBasesEditExecute(TObject *Sender)
     {
         float b, j, u, k, cost;
         String Name = frmBasesAddEdit->EditName->Text;
-        b = StrToFloatDef(frmBasesAddEdit->EditB->Text, 0);
-        j = StrToFloatDef(frmBasesAddEdit->EditJ->Text, 0);
-        u = StrToFloatDef(frmBasesAddEdit->EditU->Text, 0);
-        k = StrToFloatDef(frmBasesAddEdit->EditK->Text, 0);
-        cost = StrToFloatDef(frmBasesAddEdit->EditCost->Text, 0);
+
+        String t = frmBasesAddEdit->EditB->Text;
+        CorrectDecSeparator(t);
+        b = StrToFloatDef(t, -1);
+        if (b < 0)
+            ShowMessage(L"Некорректно задано кол-во белков.\nПо умолчанию будет задано 0.");
+
+        t = frmBasesAddEdit->EditJ->Text;
+        CorrectDecSeparator(t);
+        j = StrToFloatDef(t, -1);
+        if (j < 0)
+            ShowMessage(L"Некорректно задано кол-во жиров.\nПо умолчанию будет задано 0.");
+
+        t = frmBasesAddEdit->EditU->Text;
+        CorrectDecSeparator(t);
+        u = StrToFloatDef(t, -1);
+        if (u < 0)
+            ShowMessage(L"Некорректно задано кол-во углеводов.\nПо умолчанию будет задано 0.");
+
+        t = frmBasesAddEdit->EditK->Text;
+        CorrectDecSeparator(t);
+        k = StrToFloatDef(t, -1);
+        if (k < 0)
+            ShowMessage(L"Некорректно задано кол-во калорий.\nПо умолчанию будет задано 0.");
+
+        t = frmBasesAddEdit->EditCost->Text;
+        CorrectDecSeparator(t);
+        cost = StrToFloatDef(t, -1);
+        if (cost < 0)
+            ShowMessage(L"Некорректно задана стоимость.\nПо умолчанию будет задано 0.");
 
         if ( !Bases.Edit(Name.c_str(), b, j, u, k, cost) )
         {
@@ -132,11 +160,36 @@ void __fastcall TfrmMain::ActionBasesAddExecute(TObject *Sender)
     if ( frmBasesAddEdit->ShowModal() == mrOk )
     {
         Name = frmBasesAddEdit->EditName->Text;
-        b = StrToFloatDef(frmBasesAddEdit->EditB->Text, 0);
-        j = StrToFloatDef(frmBasesAddEdit->EditJ->Text, 0);
-        u = StrToFloatDef(frmBasesAddEdit->EditU->Text, 0);
-        k = StrToFloatDef(frmBasesAddEdit->EditK->Text, 0);
-        cost = StrToFloatDef(frmBasesAddEdit->EditCost->Text, 0);
+
+        String t = frmBasesAddEdit->EditB->Text;
+        CorrectDecSeparator(t);
+        b = StrToFloatDef(t, -1);
+        if (b < 0)
+            ShowMessage(L"Некорректно задано кол-во белков.\nПо умолчанию будет задано 0.");
+
+        t = frmBasesAddEdit->EditJ->Text;
+        CorrectDecSeparator(t);
+        j = StrToFloatDef(t, -1);
+        if (j < 0)
+            ShowMessage(L"Некорректно задано кол-во жиров.\nПо умолчанию будет задано 0.");
+
+        t = frmBasesAddEdit->EditU->Text;
+        CorrectDecSeparator(t);
+        u = StrToFloatDef(t, -1);
+        if (u < 0)
+            ShowMessage(L"Некорректно задано кол-во углеводов.\nПо умолчанию будет задано 0.");
+
+        t = frmBasesAddEdit->EditK->Text;
+        CorrectDecSeparator(t);
+        k = StrToFloatDef(t, -1);
+        if (k < 0)
+            ShowMessage(L"Некорректно задано кол-во калорий.\nПо умолчанию будет задано 0.");
+
+        t = frmBasesAddEdit->EditCost->Text;
+        CorrectDecSeparator(t);
+        cost = StrToFloatDef(t, -1);
+        if (cost < 0)
+            ShowMessage(L"Некорректно задана стоимость.\nПо умолчанию будет задано 0.");
 
         if ( !Bases.Add(Name.c_str(), b, j, u, k, cost) )
         {
@@ -626,8 +679,9 @@ void __fastcall TfrmMain::ActionCalendarAddExecute(TObject *Sender)
 	if (res == "")
 		return;
 
-	float amount = StrToFloatDef(res, 0);
-	if (amount <=0 )
+    CorrectDecSeparator(res);
+	float amount = StrToFloatDef(res, -1);
+	if (amount <= 0)
 	{
 		ShowMessage(L"Неверно введено кол-во порций");
 		return;
@@ -665,16 +719,19 @@ void __fastcall TfrmMain::ActionCalendarEditExecute(TObject *Sender)
 		return;
 	}
 
-	float amount = StrToFloatDef( gridCalendar->Cells[5][row], 0 );
+	float amount = StrToFloatDef( gridCalendar->Cells[5][row], 0);
 
 	String res = InputBox(L"Вопрос", L"Кол-во порций\n" + Name + L"\n?", amount);
-	if (res == amount) {
+
+    CorrectDecSeparator(res);
+	amount = StrToFloatDef(res, -1);
+
+	if (res == amount)
+    {
 		return;
 	}
 
-	amount = StrToFloatDef(res, 0);
-
-	if (amount <=0 )
+	if (amount <= 0)
 	{
 		ShowMessage(L"Неверно введено кол-во порций");
 		return;
