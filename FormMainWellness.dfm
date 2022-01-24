@@ -14,6 +14,7 @@ object frmMain: TfrmMain
   OldCreateOrder = False
   Position = poScreenCenter
   Scaled = False
+  OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
@@ -579,6 +580,12 @@ object frmMain: TfrmMain
         Caption = '-'
       end
     end
+    object Y1: TMenuItem
+      Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
+      object N25: TMenuItem
+        Action = ActionSettingsSettings
+      end
+    end
   end
   object ActionList: TActionList
     Left = 168
@@ -658,6 +665,10 @@ object frmMain: TfrmMain
     object ActionCalendarDel: TAction
       Caption = #1059#1076#1072#1083#1080#1090#1100' '#1074#1099#1073#1088#1072#1085#1085#1086#1077' '#1073#1083#1102#1076#1086
       OnExecute = ActionCalendarDelExecute
+    end
+    object ActionSettingsSettings: TAction
+      Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080'...'
+      OnExecute = ActionSettingsSettingsExecute
     end
   end
   object SaveDialog: TSaveDialog

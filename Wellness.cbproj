@@ -182,6 +182,12 @@
             <DependentOn>FormPreparedAddEdit.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
+        <CppCompile Include="FormSettings.cpp">
+            <Form>frmSettings</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>FormSettings.h</DependentOn>
+            <BuildOrder>11</BuildOrder>
+        </CppCompile>
         <CppCompile Include="Misc.cpp">
             <DependentOn>Misc.h</DependentOn>
             <BuildOrder>10</BuildOrder>
@@ -216,6 +222,7 @@
         <FormResources Include="FormBasesAddEdit.dfm"/>
         <FormResources Include="FormMainWellness.dfm"/>
         <FormResources Include="FormPreparedAddEdit.dfm"/>
+        <FormResources Include="FormSettings.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -310,6 +317,12 @@
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32270.dll" Class="DependencyModule">
                     <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName=".\Win64\Debug\Wellness.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>Wellness.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

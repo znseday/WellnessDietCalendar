@@ -123,6 +123,13 @@ void __fastcall TfrmPreparedsAddEdit::btnCancelClick(TObject *Sender)
 
 void __fastcall TfrmPreparedsAddEdit::btnDoneClick(TObject *Sender)
 {
+    if (EditName->Text.Length() < 3)
+    {
+        ShowMessage(L"Слишком короткое название блюда");
+        return;
+    }
+
+
     if (rbFinished->Checked)
     {
         Prepared.List.clear();

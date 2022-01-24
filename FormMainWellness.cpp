@@ -3,11 +3,14 @@
 #include <vcl.h>
 #include <System.JSON.hpp>
 #include <System.JSON.Writers.hpp>
+#include <inifiles.hpp>
+#include <dateutils.hpp>
 #pragma hdrstop
 
 #include "FormMainWellness.h"
 #include "FormBasesAddEdit.h"
 #include "FormPreparedAddEdit.h"
+#include "FormSettings.h"
 
 #include "Misc.h"
 
@@ -29,16 +32,20 @@ void __fastcall TfrmMain::ActionFileCloseExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TfrmMain::FormCreate(TObject *Sender)
 {
+    LoadSettings();
+
     ActionBasesLoad->Execute();
 	ActionPreparedsLoad->Execute();
 	ActionCalendarLoad->Execute();
 
-	cvCalendar->Date = Now();
+	cvCalendar->Date = Now() - Settings.StartDayTime;
 	LastSelectedDate = cvCalendar->Date;
 
     PrintBases(this);
 	PrintPrepareds(this);
     PrintCalendar(this);
+
+    pcMain->ActivePage = tsCalendar;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmMain::ActionBasesSaveAsExecute(TObject *Sender)
@@ -146,6 +153,7 @@ void __fastcall TfrmMain::ActionBasesAddExecute(TObject *Sender)
     float b, j, u, k, cost;
 
     frmBasesAddEdit->Caption = L"Добавить";
+
     frmBasesAddEdit->EditName->Enabled = true;
     frmBasesAddEdit->EditName->ReadOnly = false;
 
@@ -276,7 +284,7 @@ void __fastcall TfrmMain::FormCloseQuery(TObject *Sender, bool &CanClose)
 }
 //---------------------------------------------------------------------------
 
-bool TfrmMain::QuerySaveBases()
+bool TfrmMain::QuerySaveBases() const
 {
 	if ( !Bases.GetIsSaved() )
 	{
@@ -300,7 +308,7 @@ bool TfrmMain::QuerySaveBases()
 }
 //---------------------------------------------------------------------------
 
-bool TfrmMain::QuerySavePrepareds()
+bool TfrmMain::QuerySavePrepareds() const
 {
 	if ( !Prepareds.GetIsSaved() )
 	{
@@ -324,7 +332,7 @@ bool TfrmMain::QuerySavePrepareds()
 }
 //---------------------------------------------------------------------------
 
-bool TfrmMain::QuerySaveCalendar()
+bool TfrmMain::QuerySaveCalendar() const
 {
 	if ( !Calendar.GetIsSaved() )
 	{
@@ -357,8 +365,12 @@ void __fastcall TfrmMain::ActionPreparedsAddExecute(TObject *Sender)
 
     frmPreparedsAddEdit->SetItIsNew();
 	frmPreparedsAddEdit->Caption = L"Новое блюдо";
+
+//    frmPreparedsAddEdit->SwitchToBuild();
+
     frmPreparedsAddEdit->EditName->Enabled = true;
     frmPreparedsAddEdit->ResetPrepared();
+    frmPreparedsAddEdit->rbFinished->Checked = true;
 	frmPreparedsAddEdit->SwitchToFinished();
 	frmPreparedsAddEdit->InitBasesList();
 
@@ -774,6 +786,63 @@ void __fastcall TfrmMain::ActionCalendarDelExecute(TObject *Sender)
 	}
 
     PrintCalendar(this);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::ActionSettingsSettingsExecute(TObject *Sender)
+{
+    frmSettings->dtpStartDayTime->Time = Settings.StartDayTime;
+
+    if ( frmSettings->ShowModal() == mrOk )
+    {
+        Settings.StartDayTime = frmSettings->dtpStartDayTime->Time;
+    }
+}
+//---------------------------------------------------------------------------
+
+void TfrmMain::SaveSettings() const
+{
+    String dn = ExtractFilePath(Application->ExeName);
+	String fn = dn + "Settings.ini";
+
+    std::unique_ptr<TIniFile> Ini;
+
+	try
+    {
+		Ini = std::make_unique<TIniFile>(fn);
+	}
+	catch (...)
+    {
+		ShowMessage(L"Ошибка открытия ini-файла с настройками программы");
+	}
+
+    Ini->WriteTime("Global", "StartDayTime", Settings.StartDayTime);
+}
+//---------------------------------------------------------------------------
+
+void TfrmMain::LoadSettings()
+{
+	String dn = ExtractFilePath(Application->ExeName);
+	String fn = dn + "Settings.ini";
+
+    std::unique_ptr<TIniFile> Ini;
+
+	try
+    {
+		Ini = std::make_unique<TIniFile>(fn);
+	}
+	catch (...)
+    {
+		ShowMessage(L"Ошибка открытия ini-файла с настройками программы");
+	}
+
+    Settings.StartDayTime = TimeOf(Ini->ReadTime("Global", "StartDayTime", String("00:00:00")));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::FormClose(TObject *Sender, TCloseAction &Action)
+{
+    SaveSettings();
 }
 //---------------------------------------------------------------------------
 

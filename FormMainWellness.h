@@ -124,6 +124,9 @@ __published:	// IDE-managed Components
 	TAction *ActionCalendarAdd;
 	TAction *ActionCalendarEdit;
 	TAction *ActionCalendarDel;
+    TMenuItem *Y1;
+    TAction *ActionSettingsSettings;
+    TMenuItem *N25;
 	void __fastcall ActionFileCloseExecute(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ActionBasesSaveAsExecute(TObject *Sender);
@@ -164,15 +167,25 @@ __published:	// IDE-managed Components
 	void __fastcall ActionCalendarAddExecute(TObject *Sender);
 	void __fastcall ActionCalendarEditExecute(TObject *Sender);
 	void __fastcall ActionCalendarDelExecute(TObject *Sender);
+    void __fastcall ActionSettingsSettingsExecute(TObject *Sender);
+    void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 
 
 private:	// User declarations
 
-	bool QuerySaveBases();
-	bool QuerySavePrepareds();
-	bool QuerySaveCalendar();
+	bool QuerySaveBases() const;
+	bool QuerySavePrepareds() const;
+	bool QuerySaveCalendar() const;
 
     TDate LastSelectedDate;
+
+    struct SettingsStruct
+    {
+        TTime StartDayTime;
+    } Settings;
+
+    void SaveSettings() const;
+    void LoadSettings();
 
 public:		// User declarations
 	__fastcall TfrmMain(TComponent* Owner);

@@ -7,6 +7,7 @@
 USEFORM("FormBasesAddEdit.cpp", frmBasesAddEdit);
 USEFORM("FormMainWellness.cpp", frmMain);
 USEFORM("FormPreparedAddEdit.cpp", frmPreparedsAddEdit);
+USEFORM("FormSettings.cpp", frmSettings);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -18,6 +19,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TfrmMain), &frmMain);
          Application->CreateForm(__classid(TfrmBasesAddEdit), &frmBasesAddEdit);
          Application->CreateForm(__classid(TfrmPreparedsAddEdit), &frmPreparedsAddEdit);
+         Application->CreateForm(__classid(TfrmSettings), &frmSettings);
          Application->Run();
 	}
 	catch (Exception &exception)
