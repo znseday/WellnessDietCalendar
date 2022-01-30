@@ -32,7 +32,7 @@ object frmMain: TfrmMain
     Top = 0
     Width = 1332
     Height = 611
-    ActivePage = tsBases
+    ActivePage = tsCalendar
     Align = alClient
     TabOrder = 1
     object tsBases: TTabSheet

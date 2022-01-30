@@ -738,10 +738,10 @@ void __fastcall TfrmMain::ActionCalendarEditExecute(TObject *Sender)
     CorrectDecSeparator(res);
 	amount = StrToFloatDef(res, -1);
 
-	if (res == amount)
-    {
-		return;
-	}
+//	if (res == amount)
+//    {
+//		return;
+//	}
 
 	if (amount <= 0)
 	{
