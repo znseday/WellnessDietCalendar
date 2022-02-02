@@ -11,35 +11,40 @@
 #include "UnitPrepareds.h"
 #include "UnitBasesBuilder.h"
 #include "UnitPreparedsBuilder.h"
+#include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TfrmPreparedsAddEdit : public TForm
 {
 __published:    // IDE-managed Components
-    TGroupBox *GroupBox1;
-    TRadioButton *rbFinished;
-    TRadioButton *rbBuild;
-    TStringGrid *gridList;
+    TPanel *pnlBottom;
+    TListBox *lbBases;
     TButton *btnAddFromBases;
     TButton *btnCancel;
     TButton *btnDone;
-    TLabel *Label1;
-    TEdit *EditName;
-    TLabel *Label2;
-    TEdit *EditB;
-    TLabel *Label3;
-    TEdit *EditJ;
-    TLabel *Label4;
-    TEdit *EditU;
-    TLabel *Label5;
-    TEdit *EditK;
-    TLabel *Label6;
-    TEdit *EditM;
-    TLabel *Label7;
-    TEdit *EditCost;
     TButton *btnReCalc;
     TButton *btnEditM;
     TEdit *EditSearchBases;
-    TListBox *lbBases;
+    TPanel *pnlTop;
+    TLabel *Label1;
+    TLabel *Label2;
+    TLabel *Label3;
+    TLabel *Label4;
+    TLabel *Label5;
+    TLabel *Label6;
+    TLabel *Label7;
+    TGroupBox *GroupBox1;
+    TRadioButton *rbFinished;
+    TRadioButton *rbBuild;
+    TEdit *EditName;
+    TEdit *EditB;
+    TEdit *EditJ;
+    TEdit *EditU;
+    TEdit *EditK;
+    TEdit *EditM;
+    TEdit *EditCost;
+    TPanel *pnlCentral;
+    TStringGrid *gridList;
+    TPanel *pnlCentralTop;
     TLabel *Label8;
     void __fastcall rbFinishedClick(TObject *Sender);
     void __fastcall rbBuildClick(TObject *Sender);
