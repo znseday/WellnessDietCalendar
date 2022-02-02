@@ -370,6 +370,8 @@ object frmMain: TfrmMain
         Height = 539
         Align = alRight
         TabOrder = 0
+        ExplicitLeft = 929
+        ExplicitTop = 39
         object cvCalendar: TCalendarView
           Left = 1
           Top = 1
@@ -425,7 +427,9 @@ object frmMain: TfrmMain
           TabOrder = 2
           Visible = False
           OnDblClick = lbCalendarPreparedsDblClick
+          OnExit = lbCalendarPreparedsExit
           OnKeyDown = lbCalendarPreparedsKeyDown
+          OnMouseLeave = lbCalendarPreparedsMouseLeave
         end
         object btnCalendarAdd: TButton
           Left = 6
@@ -720,6 +724,7 @@ object frmMain: TfrmMain
     end
     object ActionCalendarAdd: TAction
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1073#1083#1102#1076#1086
+      Enabled = False
       OnExecute = ActionCalendarAddExecute
     end
     object ActionCalendarEdit: TAction

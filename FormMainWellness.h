@@ -178,6 +178,8 @@ __published:    // IDE-managed Components
     void __fastcall ActionSettingsSettingsExecute(TObject *Sender);
     void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
     void __fastcall ActionCalendarExportExecute(TObject *Sender);
+    void __fastcall lbCalendarPreparedsExit(TObject *Sender);
+    void __fastcall lbCalendarPreparedsMouseLeave(TObject *Sender);
 
 
 private:    // User declarations

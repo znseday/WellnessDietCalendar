@@ -699,12 +699,28 @@ void __fastcall TfrmMain::cvCalendarDrawDayItem(TObject *Sender, TDrawViewInfoPa
 
 void __fastcall TfrmMain::ActionCalendarAddExecute(TObject *Sender)
 {
-    String Name = EditCalendarPreparedSearch->Text;
-
-    if (! Prepareds.CheckPreparedExists(Name.c_str()) )
+    String Name;
+    int ind = lbCalendarPrepareds->ItemIndex;
+    if (ind < 0)
     {
-        ShowMessage(L"Такого блюда не существует в базе");
-        return;
+        Name = EditCalendarPreparedSearch->Text;
+
+        if (! Prepareds.CheckPreparedExists(Name.c_str()) )
+        {
+
+            ShowMessage(L"Такого блюда не существует в базе");
+            return;
+        }
+    }
+    else
+    {
+        Name = lbCalendarPrepareds->Items->Strings[ind];
+        if (! Prepareds.CheckPreparedExists(Name.c_str()) )
+        {
+
+            ShowMessage(L"Такого блюда не существует в базе");
+            return;
+        }
     }
 
     String res = InputBox(L"Вопрос", L"Кол-во порций\n" + Name + L"\n?", "");
@@ -869,6 +885,24 @@ void __fastcall TfrmMain::FormClose(TObject *Sender, TCloseAction &Action)
 void __fastcall TfrmMain::ActionCalendarExportExecute(TObject *Sender)
 {
     // ---
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::lbCalendarPreparedsExit(TObject *Sender)
+{
+    //lbCalendarPrepareds->Hide();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::lbCalendarPreparedsMouseLeave(TObject *Sender)
+{
+    int ind = lbCalendarPrepareds->ItemIndex;
+    if (ind >= 0)
+    {
+        EditCalendarPreparedSearch->Text = lbCalendarPrepareds->Items->Strings[ind];
+    }
+
+    lbCalendarPrepareds->Hide();
 }
 //---------------------------------------------------------------------------
 
