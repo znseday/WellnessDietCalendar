@@ -11,14 +11,14 @@ class PreparedsBuilder : public PreparedsClass
 {
 public:
 
-	void ClearTable(TStringGrid *grid) const;
-	void PrintAllToTable(TStringGrid *grid, HowToSort _SortType,
-						 String _SearchString) const;
+    void ClearTable(TStringGrid *grid) const;
+    void PrintAllToTable(TStringGrid *grid, HowToSort _SortType,
+                         String _SearchString) const;
 
     bool SaveToJSON(String _FullFileName);
-	bool LoadFromJSON(String _FullFileName);
+    bool LoadFromJSON(String _FullFileName);
 
-	void PrintToListBox(TListBox *lb, String _SearchString) const;
+    void PrintToListBox(TListBox *lb, String _SearchString) const;
 };
 
 #endif

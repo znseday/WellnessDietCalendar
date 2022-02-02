@@ -421,7 +421,7 @@ object frmMain: TfrmMain
           Left = 6
           Top = 279
           Width = 385
-          Height = 106
+          Height = 26
           TabOrder = 2
           Visible = False
           OnDblClick = lbCalendarPreparedsDblClick
@@ -450,6 +450,70 @@ object frmMain: TfrmMain
           Height = 33
           Action = ActionCalendarDel
           TabOrder = 5
+        end
+        object GroupBox3: TGroupBox
+          Left = 6
+          Top = 296
+          Width = 267
+          Height = 103
+          Caption = #1057#1086#1088#1090#1080#1088#1086#1074#1082#1072
+          TabOrder = 6
+          object rbCalendarSortName: TRadioButton
+            Left = 24
+            Top = 27
+            Width = 89
+            Height = 17
+            Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+            Checked = True
+            TabOrder = 0
+            TabStop = True
+            OnClick = PrintCalendar
+          end
+          object rbCalendarSortB: TRadioButton
+            Left = 24
+            Top = 50
+            Width = 89
+            Height = 17
+            Caption = #1041#1077#1083#1082#1080
+            TabOrder = 1
+            OnClick = PrintCalendar
+          end
+          object rbCalendarSortJ: TRadioButton
+            Left = 24
+            Top = 73
+            Width = 89
+            Height = 17
+            Caption = #1046#1080#1088#1099
+            TabOrder = 2
+            OnClick = PrintCalendar
+          end
+          object rbCalendarSortU: TRadioButton
+            Left = 127
+            Top = 27
+            Width = 113
+            Height = 17
+            Caption = #1059#1075#1083#1077#1074#1086#1076#1099
+            TabOrder = 3
+            OnClick = PrintCalendar
+          end
+          object rbCalendarSortK: TRadioButton
+            Left = 128
+            Top = 50
+            Width = 113
+            Height = 17
+            Caption = #1050#1072#1083#1086#1088#1080#1081#1085#1086#1089#1090#1100
+            TabOrder = 4
+            OnClick = PrintCalendar
+          end
+          object rbCalendarSortCost: TRadioButton
+            Left = 127
+            Top = 73
+            Width = 113
+            Height = 17
+            Caption = #1057#1090#1086#1080#1084#1086#1089#1090#1100
+            TabOrder = 5
+            OnClick = PrintCalendar
+          end
         end
       end
       object gridCalendar: TStringGrid
@@ -669,6 +733,10 @@ object frmMain: TfrmMain
     object ActionSettingsSettings: TAction
       Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080'...'
       OnExecute = ActionSettingsSettingsExecute
+    end
+    object ActionCalendarExport: TAction
+      Caption = #1069#1082#1089#1087#1086#1088#1090'...'
+      OnExecute = ActionCalendarExportExecute
     end
   end
   object SaveDialog: TSaveDialog

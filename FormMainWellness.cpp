@@ -21,7 +21,7 @@
 TfrmMain *frmMain;
 //---------------------------------------------------------------------------
 __fastcall TfrmMain::TfrmMain(TComponent* Owner)
-	: TForm(Owner)
+    : TForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
@@ -35,15 +35,17 @@ void __fastcall TfrmMain::FormCreate(TObject *Sender)
     LoadSettings();
 
     ActionBasesLoad->Execute();
-	ActionPreparedsLoad->Execute();
-	ActionCalendarLoad->Execute();
+    ActionPreparedsLoad->Execute();
+    ActionCalendarLoad->Execute();
 
-	cvCalendar->Date = Now() - Settings.StartDayTime;
-	LastSelectedDate = cvCalendar->Date;
+    cvCalendar->Date = Now() - Settings.StartDayTime;
+    LastSelectedDate = cvCalendar->Date;
 
     PrintBases(this);
-	PrintPrepareds(this);
+    PrintPrepareds(this);
     PrintCalendar(this);
+
+    lbCalendarPrepareds->Height = 100;
 
     pcMain->ActivePage = tsCalendar;
 }
@@ -54,7 +56,7 @@ void __fastcall TfrmMain::ActionBasesSaveAsExecute(TObject *Sender)
     {
         if ( !Bases.SaveToJSON(SaveDialog->FileName) )
         {
-        	ShowMessage(L"ActionBasesSaveAsExecute: Что-то пошло не так");
+            ShowMessage(L"ActionBasesSaveAsExecute: Что-то пошло не так");
         }
     }
 }
@@ -62,10 +64,10 @@ void __fastcall TfrmMain::ActionBasesSaveAsExecute(TObject *Sender)
 
 void __fastcall TfrmMain::ActionBasesSaveExecute(TObject *Sender)
 {
-	if ( !Bases.SaveToJSON(ExtractFilePath(Application->ExeName) + "Bases.json") )
+    if ( !Bases.SaveToJSON(ExtractFilePath(Application->ExeName) + "Bases.json") )
     {
         ShowMessage(L"ActionBasesSaveExecute: Что-то пошло не так.");
-	}
+    }
 }
 //---------------------------------------------------------------------------
 
@@ -76,7 +78,7 @@ void __fastcall TfrmMain::ActionBasesLoadExecute(TObject *Sender)
         ShowMessage(L"ActionBasesLoadExecute: Что-то пошло не так");
     }
 
-	PrintBases(this);
+    PrintBases(this);
 }
 //---------------------------------------------------------------------------
 
@@ -101,7 +103,7 @@ void __fastcall TfrmMain::ActionBasesEditExecute(TObject *Sender)
     frmBasesAddEdit->EditK->Text = gridBases->Cells[4][row];
     frmBasesAddEdit->EditCost->Text = gridBases->Cells[5][row];
 
- 	if ( frmBasesAddEdit->ShowModal() == mrOk )
+     if ( frmBasesAddEdit->ShowModal() == mrOk )
     {
         float b, j, u, k, cost;
         String Name = frmBasesAddEdit->EditName->Text;
@@ -142,7 +144,7 @@ void __fastcall TfrmMain::ActionBasesEditExecute(TObject *Sender)
             return;
         }
 
-		PrintBases(this);
+        PrintBases(this);
     }
 }
 //---------------------------------------------------------------------------
@@ -162,7 +164,7 @@ void __fastcall TfrmMain::ActionBasesAddExecute(TObject *Sender)
     frmBasesAddEdit->EditJ->Text = "";
     frmBasesAddEdit->EditU->Text = "";
     frmBasesAddEdit->EditK->Text = "";
-	frmBasesAddEdit->EditCost->Text = "";
+    frmBasesAddEdit->EditCost->Text = "";
 
 
     if ( frmBasesAddEdit->ShowModal() == mrOk )
@@ -205,14 +207,14 @@ void __fastcall TfrmMain::ActionBasesAddExecute(TObject *Sender)
             return;
         }
 
-		PrintBases(this);
+        PrintBases(this);
     }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::ActionBasesDelExecute(TObject *Sender)
 {
-	int row = gridBases->Selection.Top;
+    int row = gridBases->Selection.Top;
 
     if (Bases.GetCount() < 1 || row < 1 || row > Bases.GetCount())
     {
@@ -220,11 +222,11 @@ void __fastcall TfrmMain::ActionBasesDelExecute(TObject *Sender)
         return;
     }
 
-	if (Application->MessageBox(L"Удалить из списка выделенный продукт",
-		L"Вопрос", MB_YESNO | MB_ICONQUESTION) != IDYES)
-		return;
+    if (Application->MessageBox(L"Удалить из списка выделенный продукт",
+        L"Вопрос", MB_YESNO | MB_ICONQUESTION) != IDYES)
+        return;
 
-	String Name = gridBases->Cells[0][row];
+    String Name = gridBases->Cells[0][row];
 
     if ( !Bases.Del(Name.c_str()) )
     {
@@ -232,178 +234,178 @@ void __fastcall TfrmMain::ActionBasesDelExecute(TObject *Sender)
         return;
     }
 
-	PrintBases(this);
+    PrintBases(this);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::PrintBases(TObject *Sender)
 {
-	String SearchString = EditBasesSearch->Text;
+    String SearchString = EditBasesSearch->Text;
 
-	HowToSort hts = HowToSort::Name;
+    HowToSort hts = HowToSort::Name;
 
-	if (rbBasesSortName->Checked)
-		hts = HowToSort::Name;
-	else if (rbBasesSortB->Checked)
-		hts = HowToSort::B;
+    if (rbBasesSortName->Checked)
+        hts = HowToSort::Name;
+    else if (rbBasesSortB->Checked)
+        hts = HowToSort::B;
     else if (rbBasesSortJ->Checked)
-		hts = HowToSort::J;
+        hts = HowToSort::J;
     else if (rbBasesSortU->Checked)
-		hts = HowToSort::U;
+        hts = HowToSort::U;
     else if (rbBasesSortK->Checked)
-		hts = HowToSort::K;
-	else if (rbBasesSortCost->Checked)
-		hts = HowToSort::Cost;
-	else
-	{
-		ShowMessage(L"Ошибка! Не задан тип сортировки");
-		return;
-	}
+        hts = HowToSort::K;
+    else if (rbBasesSortCost->Checked)
+        hts = HowToSort::Cost;
+    else
+    {
+        ShowMessage(L"Ошибка! Не задан тип сортировки");
+        return;
+    }
 
-	Bases.PrintToTable(gridBases, hts, SearchString);
+    Bases.PrintToTable(gridBases, hts, SearchString);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::FormCloseQuery(TObject *Sender, bool &CanClose)
 {
-	if ( (!QuerySaveBases() ))
-	{
-		CanClose = false;
-		return;
-	}
-	if ( (!QuerySavePrepareds() ))
-	{
-		CanClose = false;
-		return;
-	}
-	if ( (!QuerySaveCalendar() ))
-	{
-		CanClose = false;
-		return;
-	}
+    if ( (!QuerySaveBases() ))
+    {
+        CanClose = false;
+        return;
+    }
+    if ( (!QuerySavePrepareds() ))
+    {
+        CanClose = false;
+        return;
+    }
+    if ( (!QuerySaveCalendar() ))
+    {
+        CanClose = false;
+        return;
+    }
 }
 //---------------------------------------------------------------------------
 
 bool TfrmMain::QuerySaveBases() const
 {
-	if ( !Bases.GetIsSaved() )
-	{
-		String mes = L"Изменения в списке базовых продуктов не сохранены. Сохранить?";
-		int res = Application->MessageBox( mes.c_str(),
-						Application->Title.c_str(), 3);
-		if (res == mrYes)
-		{
-			ActionBasesSave->Execute();
-		}
-		else if (res == mrCancel)
-		{
-			return false;
-		}
-		else if (res == mrNo)
-		{
-			return true;
-		}
-	}
-	return true;
+    if ( !Bases.GetIsSaved() )
+    {
+        String mes = L"Изменения в списке базовых продуктов не сохранены. Сохранить?";
+        int res = Application->MessageBox( mes.c_str(),
+                        Application->Title.c_str(), 3);
+        if (res == mrYes)
+        {
+            ActionBasesSave->Execute();
+        }
+        else if (res == mrCancel)
+        {
+            return false;
+        }
+        else if (res == mrNo)
+        {
+            return true;
+        }
+    }
+    return true;
 }
 //---------------------------------------------------------------------------
 
 bool TfrmMain::QuerySavePrepareds() const
 {
-	if ( !Prepareds.GetIsSaved() )
-	{
-		String mes = L"Изменения в списке готовых продуктов не сохранены. Сохранить?";
-		int res = Application->MessageBox( mes.c_str(),
-						Application->Title.c_str(), 3);
-		if (res == mrYes)
-		{
-			ActionPreparedsSave->Execute();
-		}
-		else if (res == mrCancel)
-		{
-			return false;
-		}
-		else if (res == mrNo)
-		{
-			return true;
-		}
-	}
-	return true;
+    if ( !Prepareds.GetIsSaved() )
+    {
+        String mes = L"Изменения в списке готовых продуктов не сохранены. Сохранить?";
+        int res = Application->MessageBox( mes.c_str(),
+                        Application->Title.c_str(), 3);
+        if (res == mrYes)
+        {
+            ActionPreparedsSave->Execute();
+        }
+        else if (res == mrCancel)
+        {
+            return false;
+        }
+        else if (res == mrNo)
+        {
+            return true;
+        }
+    }
+    return true;
 }
 //---------------------------------------------------------------------------
 
 bool TfrmMain::QuerySaveCalendar() const
 {
-	if ( !Calendar.GetIsSaved() )
-	{
-		String mes = L"Изменения в календаре не сохранены. Сохранить?";
-		int res = Application->MessageBox( mes.c_str(),
-						Application->Title.c_str(), 3);
-		if (res == mrYes)
-		{
-			ActionCalendarSave->Execute();
-		}
-		else if (res == mrCancel)
-		{
-			return false;
-		}
-		else if (res == mrNo)
-		{
-			return true;
-		}
-	}
-	return true;
+    if ( !Calendar.GetIsSaved() )
+    {
+        String mes = L"Изменения в календаре не сохранены. Сохранить?";
+        int res = Application->MessageBox( mes.c_str(),
+                        Application->Title.c_str(), 3);
+        if (res == mrYes)
+        {
+            ActionCalendarSave->Execute();
+        }
+        else if (res == mrCancel)
+        {
+            return false;
+        }
+        else if (res == mrNo)
+        {
+            return true;
+        }
+    }
+    return true;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::ActionPreparedsAddExecute(TObject *Sender)
 {
-	if ( frmPreparedsAddEdit->Showing )
+    if ( frmPreparedsAddEdit->Showing )
     {
         frmPreparedsAddEdit->WindowState = wsNormal;
     }
 
     frmPreparedsAddEdit->SetItIsNew();
-	frmPreparedsAddEdit->Caption = L"Новое блюдо";
+    frmPreparedsAddEdit->Caption = L"Новое блюдо";
 
 //    frmPreparedsAddEdit->SwitchToBuild();
 
     frmPreparedsAddEdit->EditName->Enabled = true;
     frmPreparedsAddEdit->ResetPrepared();
     frmPreparedsAddEdit->rbFinished->Checked = true;
-	frmPreparedsAddEdit->SwitchToFinished();
-	frmPreparedsAddEdit->InitBasesList();
+    frmPreparedsAddEdit->SwitchToFinished();
+    frmPreparedsAddEdit->InitBasesList();
 
-	frmPreparedsAddEdit->Show();
+    frmPreparedsAddEdit->Show();
 
-	frmPreparedsAddEdit->EditName->SetFocus();
+    frmPreparedsAddEdit->EditName->SetFocus();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::ActionPreparedsEditExecute(TObject *Sender)
 {
-	int row = gridPrepareds->Selection.Top;
+    int row = gridPrepareds->Selection.Top;
 
-	if (Prepareds.GetCount() < 1 || row < 1 || row > Prepareds.GetCount())
+    if (Prepareds.GetCount() < 1 || row < 1 || row > Prepareds.GetCount())
     {
         ShowMessage(L"Не выбраны данные для редактирования");
         return;
     }
 
-	if ( frmPreparedsAddEdit->Showing )
+    if ( frmPreparedsAddEdit->Showing )
     {
         frmPreparedsAddEdit->WindowState = wsNormal;
     }
 
     frmPreparedsAddEdit->SetItIsEdit();
-	frmPreparedsAddEdit->Caption = L"Редактировать";
+    frmPreparedsAddEdit->Caption = L"Редактировать";
     frmPreparedsAddEdit->EditName->Enabled = false;
     String Name = gridPrepareds->Cells[0][row];
 
-	frmPreparedsAddEdit->InitPrepared(Name, Prepareds.GetPrepared(Name.c_str()));
-	//frmPreparedsAddEdit->SwitchToFinished();
+    frmPreparedsAddEdit->InitPrepared(Name, Prepareds.GetPrepared(Name.c_str()));
+    //frmPreparedsAddEdit->SwitchToFinished();
     frmPreparedsAddEdit->InitBasesList();
-	frmPreparedsAddEdit->Show();
+    frmPreparedsAddEdit->Show();
     frmPreparedsAddEdit->InitControls();
 }
 //---------------------------------------------------------------------------
@@ -412,15 +414,15 @@ void __fastcall TfrmMain::ActionPreparedsDelExecute(TObject *Sender)
 {
     int row = gridPrepareds->Selection.Top;
 
-	if (Prepareds.GetCount() < 1 || row < 1 || row > Prepareds.GetCount())
+    if (Prepareds.GetCount() < 1 || row < 1 || row > Prepareds.GetCount())
     {
         ShowMessage(L"Не выбраны данные для редактирования");
         return;
     }
 
     if (Application->MessageBox(L"Удалить из списка выделенное блюдо?",
-		L"Вопрос", MB_YESNO | MB_ICONQUESTION) != IDYES)
-		return;
+        L"Вопрос", MB_YESNO | MB_ICONQUESTION) != IDYES)
+        return;
 
     String Name = gridPrepareds->Cells[0][row];
 
@@ -447,9 +449,9 @@ void __fastcall TfrmMain::ActionPreparedsSaveAsExecute(TObject *Sender)
 {
     if (SaveDialog->Execute())
     {
-		if ( !Prepareds.SaveToJSON(SaveDialog->FileName) )
+        if ( !Prepareds.SaveToJSON(SaveDialog->FileName) )
         {
-        	ShowMessage(L"ActionPreparedSaveAsExecute: Что-то пошло не так");
+            ShowMessage(L"ActionPreparedSaveAsExecute: Что-то пошло не так");
         }
     }
 }
@@ -457,7 +459,7 @@ void __fastcall TfrmMain::ActionPreparedsSaveAsExecute(TObject *Sender)
 
 void __fastcall TfrmMain::ActionPreparedsLoadExecute(TObject *Sender)
 {
-	if ( !Prepareds.LoadFromJSON(ExtractFilePath(Application->ExeName) + "Prepareds.json") )
+    if ( !Prepareds.LoadFromJSON(ExtractFilePath(Application->ExeName) + "Prepareds.json") )
     {
         ShowMessage(L"ActionPreparedLoadExecute: Что-то пошло не так");
     }
@@ -468,37 +470,37 @@ void __fastcall TfrmMain::ActionPreparedsLoadExecute(TObject *Sender)
 
 void __fastcall TfrmMain::PrintPrepareds(TObject *Sender)
 {
-	String SearchString = EditPreparedsSearch->Text;
+    String SearchString = EditPreparedsSearch->Text;
 
-	HowToSort hts = HowToSort::Name;
+    HowToSort hts = HowToSort::Name;
 
-	if (rbPreparedSortName->Checked)
-		hts = HowToSort::Name;
-	else if (rbPreparedSortB->Checked)
-		hts = HowToSort::B;
-	else if (rbPreparedSortJ->Checked)
-		hts = HowToSort::J;
-	else if (rbPreparedSortU->Checked)
-		hts = HowToSort::U;
-	else if (rbPreparedSortK->Checked)
-		hts = HowToSort::K;
-	else if (rbPreparedSortM->Checked)
-		hts = HowToSort::M;
-	else if (rbPreparedSortCost->Checked)
-		hts = HowToSort::Cost;
-	else
-	{
-		ShowMessage(L"Ошибка! Не задан тип сортировки");
-		return;
-	}
+    if (rbPreparedSortName->Checked)
+        hts = HowToSort::Name;
+    else if (rbPreparedSortB->Checked)
+        hts = HowToSort::B;
+    else if (rbPreparedSortJ->Checked)
+        hts = HowToSort::J;
+    else if (rbPreparedSortU->Checked)
+        hts = HowToSort::U;
+    else if (rbPreparedSortK->Checked)
+        hts = HowToSort::K;
+    else if (rbPreparedSortM->Checked)
+        hts = HowToSort::M;
+    else if (rbPreparedSortCost->Checked)
+        hts = HowToSort::Cost;
+    else
+    {
+        ShowMessage(L"Ошибка! Не задан тип сортировки");
+        return;
+    }
 
-	Prepareds.PrintAllToTable(gridPrepareds, hts, SearchString);
+    Prepareds.PrintAllToTable(gridPrepareds, hts, SearchString);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::FormShow(TObject *Sender)
 {
-	frmPreparedsAddEdit->InitPointers(&Bases, &Prepareds);
+    frmPreparedsAddEdit->InitPointers(&Bases, &Prepareds);
 }
 //---------------------------------------------------------------------------
 
@@ -511,24 +513,24 @@ void __fastcall TfrmMain::gridPreparedsMouseDown(TObject *Sender, TMouseButton B
 
 void __fastcall TfrmMain::EditBasesSearchChange(TObject *Sender)
 {
-	PrintBases(this);
+    PrintBases(this);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::EditPreparedsSearchChange(TObject *Sender)
 {
-	PrintPrepareds(this);
+    PrintPrepareds(this);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::EditCalendarPreparedSearchChange(TObject *Sender)
 {
-	String SearchString = EditCalendarPreparedSearch->Text;
-	Prepareds.PrintToListBox(lbCalendarPrepareds, SearchString);
+    String SearchString = EditCalendarPreparedSearch->Text;
+    Prepareds.PrintToListBox(lbCalendarPrepareds, SearchString);
 
-	if (SearchString.Length() > 0)
-		btnCalendarAdd->Enabled = true;
-	else
+    if (SearchString.Length() > 0)
+        btnCalendarAdd->Enabled = true;
+    else
         btnCalendarAdd->Enabled = false;
 }
 //---------------------------------------------------------------------------
@@ -536,104 +538,122 @@ void __fastcall TfrmMain::EditCalendarPreparedSearchChange(TObject *Sender)
 void __fastcall TfrmMain::EditCalendarPreparedSearchKeyDown(TObject *Sender, WORD &Key,
           TShiftState Shift)
 {
-	if ( !lbCalendarPrepareds->Visible )
-		return;
+    if ( !lbCalendarPrepareds->Visible )
+        return;
 
-	if (Key == vkDown)
-	{
-		if (lbCalendarPrepareds->ItemIndex < lbCalendarPrepareds->Count-1)
-		{
-			lbCalendarPrepareds->ItemIndex++;
-		}
-		Key = 0;
-	}
-	if (Key == vkUp)
-	{
-		if (lbCalendarPrepareds->ItemIndex > 0)
-		{
-			lbCalendarPrepareds->ItemIndex--;
-		}
+    if (Key == vkDown)
+    {
+        if (lbCalendarPrepareds->ItemIndex < lbCalendarPrepareds->Count-1)
+        {
+            lbCalendarPrepareds->ItemIndex++;
+        }
         Key = 0;
-	}
+    }
+    if (Key == vkUp)
+    {
+        if (lbCalendarPrepareds->ItemIndex > 0)
+        {
+            lbCalendarPrepareds->ItemIndex--;
+        }
+        Key = 0;
+    }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::EditCalendarPreparedSearchKeyPress(TObject *Sender, System::WideChar &Key)
 {
-//	if ( !lbCalendarPrepareds->Visible )
-//		return;
+//    if ( !lbCalendarPrepareds->Visible )
+//        return;
 
-	if (Key == vkReturn)
-	{
-		if ( lbCalendarPrepareds->Visible )
-		{
-			EditCalendarPreparedSearch->Text = lbCalendarPrepareds->Items->Strings[lbCalendarPrepareds->ItemIndex];
-			lbCalendarPrepareds->Clear();
-			lbCalendarPrepareds->Visible = false;
-		}
+    if (Key == vkReturn)
+    {
+        if ( lbCalendarPrepareds->Visible )
+        {
+            EditCalendarPreparedSearch->Text = lbCalendarPrepareds->Items->Strings[lbCalendarPrepareds->ItemIndex];
+            lbCalendarPrepareds->Clear();
+            lbCalendarPrepareds->Visible = false;
+        }
 
-		Key = 0;
-	}
+        Key = 0;
+    }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::lbCalendarPreparedsDblClick(TObject *Sender)
 {
-	EditCalendarPreparedSearch->Text = lbCalendarPrepareds->Items->Strings[lbCalendarPrepareds->ItemIndex];
-	lbCalendarPrepareds->Clear();
-	lbCalendarPrepareds->Visible = false;
+    EditCalendarPreparedSearch->Text = lbCalendarPrepareds->Items->Strings[lbCalendarPrepareds->ItemIndex];
+    lbCalendarPrepareds->Clear();
+    lbCalendarPrepareds->Visible = false;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::lbCalendarPreparedsKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
 {
-	if (Key == vkReturn)
-	{
-		EditCalendarPreparedSearch->Text = lbCalendarPrepareds->Items->Strings[lbCalendarPrepareds->ItemIndex];
-		lbCalendarPrepareds->Clear();
-		lbCalendarPrepareds->Visible = false;
-	}
+    if (Key == vkReturn)
+    {
+        EditCalendarPreparedSearch->Text = lbCalendarPrepareds->Items->Strings[lbCalendarPrepareds->ItemIndex];
+        lbCalendarPrepareds->Clear();
+        lbCalendarPrepareds->Visible = false;
+    }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::PrintCalendar(TObject *Sender)
 {
-	TDate Date = cvCalendar->Date;
+    TDate Date = cvCalendar->Date;
 
     lblDate->Caption = Date.toAnsiString();
 
-	String SearchString = EditCalendarSearch->Text;
+    String SearchString = EditCalendarSearch->Text;
 
-	HowToSort hts = HowToSort::Name;
+    HowToSort hts = HowToSort::Name;
 
-	Calendar.PrintOneDayToTable(Date, gridCalendar, hts, SearchString, &Prepareds);
+    if (rbCalendarSortName->Checked)
+        hts = HowToSort::Name;
+    else if (rbCalendarSortB->Checked)
+        hts = HowToSort::B;
+    else if (rbCalendarSortJ->Checked)
+        hts = HowToSort::J;
+    else if (rbCalendarSortU->Checked)
+        hts = HowToSort::U;
+    else if (rbCalendarSortK->Checked)
+        hts = HowToSort::K;
+    else if (rbCalendarSortCost->Checked)
+        hts = HowToSort::Cost;
+    else
+    {
+        ShowMessage(L"Ошибка! Не задан тип сортировки");
+        return;
+    }
+
+    Calendar.PrintOneDayToTable(Date, gridCalendar, hts, SearchString, &Prepareds);
     cvCalendar->Invalidate();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::EditCalendarSearchChange(TObject *Sender)
 {
-	PrintCalendar(this);
+    PrintCalendar(this);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::ActionCalendarLoadExecute(TObject *Sender)
 {
-	if ( !Calendar.LoadFromJSON(ExtractFilePath(Application->ExeName) + "Calendar.json") )
-	{
+    if ( !Calendar.LoadFromJSON(ExtractFilePath(Application->ExeName) + "Calendar.json") )
+    {
         ShowMessage(L"ActionCalendarLoadExecute: Что-то пошло не так");
     }
 
-	PrintCalendar(this);
+    PrintCalendar(this);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::ActionCalendarSaveExecute(TObject *Sender)
 {
-	if ( !Calendar.SaveToJSON(ExtractFilePath(Application->ExeName) + "Calendar.json") )
-	{
+    if ( !Calendar.SaveToJSON(ExtractFilePath(Application->ExeName) + "Calendar.json") )
+    {
         ShowMessage(L"ActionCalendarSaveExecute: Что-то пошло не так.");
-	}
+    }
 }
 //---------------------------------------------------------------------------
 
@@ -641,119 +661,119 @@ void __fastcall TfrmMain::ActionCalendarSaveAsExecute(TObject *Sender)
 {
     if (SaveDialog->Execute())
     {
-		if ( !Calendar.SaveToJSON(SaveDialog->FileName) )
+        if ( !Calendar.SaveToJSON(SaveDialog->FileName) )
         {
-        	ShowMessage(L"ActionCalendarSaveAsExecute: Что-то пошло не так");
-		}
-	}
+            ShowMessage(L"ActionCalendarSaveAsExecute: Что-то пошло не так");
+        }
+    }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::cvCalendarChange(TObject *Sender)
 {
-	if ( cvCalendar->Date == TDate(-700000) ) // число, на которое он сбрасывает
-		cvCalendar->Date = LastSelectedDate;
-	else
-		LastSelectedDate = cvCalendar->Date;
+    if ( cvCalendar->Date == TDate(-700000) ) // число, на которое он сбрасывает
+        cvCalendar->Date = LastSelectedDate;
+    else
+        LastSelectedDate = cvCalendar->Date;
 
-	PrintCalendar(this);
+    PrintCalendar(this);
 }
 //---------------------------------------------------------------------------
 
 
 void __fastcall TfrmMain::cvCalendarDrawDayItem(TObject *Sender, TDrawViewInfoParams *DrawParams,
-		  TCellItemViewInfo *CalendarViewViewInfo)
+          TCellItemViewInfo *CalendarViewViewInfo)
 {
-	//DrawParams->ForegroundColor = clRed;
-	//DrawParams->FocusedColor = clRed;
-	//DrawParams->SelectionColor = clRed;
-	//DrawParams->FocusedColor = clRed;
-	DrawParams->FocusRectWidth = 5;
+    //DrawParams->ForegroundColor = clRed;
+    //DrawParams->FocusedColor = clRed;
+    //DrawParams->SelectionColor = clRed;
+    //DrawParams->FocusedColor = clRed;
+    DrawParams->FocusRectWidth = 5;
 
-	//DrawParams->BkColor = clRed;
+    //DrawParams->BkColor = clRed;
 
-	if ( Calendar.GetCountForDay(CalendarViewViewInfo->Date) > 0 )
-		DrawParams->BkColor = clTeal; //clAqua; // clSkyBlue;// clTeal;
+    if ( Calendar.GetCountForDay(CalendarViewViewInfo->Date) > 0 )
+        DrawParams->BkColor = clTeal; //clAqua; // clSkyBlue;// clTeal;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::ActionCalendarAddExecute(TObject *Sender)
 {
-	String Name = EditCalendarPreparedSearch->Text;
+    String Name = EditCalendarPreparedSearch->Text;
 
-	if (! Prepareds.CheckPreparedExists(Name.c_str()) )
-	{
-		ShowMessage(L"Такого блюда не существует в базе");
-		return;
-	}
+    if (! Prepareds.CheckPreparedExists(Name.c_str()) )
+    {
+        ShowMessage(L"Такого блюда не существует в базе");
+        return;
+    }
 
-	String res = InputBox(L"Вопрос", L"Кол-во порций\n" + Name + L"\n?", "");
-	if (res == "")
-		return;
+    String res = InputBox(L"Вопрос", L"Кол-во порций\n" + Name + L"\n?", "");
+    if (res == "")
+        return;
 
     CorrectDecSeparator(res);
-	float amount = StrToFloatDef(res, -1);
-	if (amount <= 0)
-	{
-		ShowMessage(L"Неверно введено кол-во порций");
-		return;
-	}
+    float amount = StrToFloatDef(res, -1);
+    if (amount <= 0)
+    {
+        ShowMessage(L"Неверно введено кол-во порций");
+        return;
+    }
 
-	TDate Date = cvCalendar->Date;
+    TDate Date = cvCalendar->Date;
 
-	if ( !Calendar.Add(Date, std::make_pair(Name.c_str(), amount)) )
-	{
-		ShowMessage(L"Ошибка при добавлении блюда. Возможно такое блюдо уже есть в списке или еще что-то не так.");
-		return;
-	}
+    if ( !Calendar.Add(Date, std::make_pair(Name.c_str(), amount)) )
+    {
+        ShowMessage(L"Ошибка при добавлении блюда. Возможно такое блюдо уже есть в списке или еще что-то не так.");
+        return;
+    }
 
-	PrintCalendar(this);
+    PrintCalendar(this);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmMain::ActionCalendarEditExecute(TObject *Sender)
 {
-	TDate Date = cvCalendar->Date;
-	int row = gridCalendar->Selection.Top;
-	int CountForDay = Calendar.GetCountForDay(Date);
+    TDate Date = cvCalendar->Date;
+    int row = gridCalendar->Selection.Top;
+    int CountForDay = Calendar.GetCountForDay(Date);
 
-	if ( CountForDay < 1 || row < 1 || row > CountForDay )
-	{
-		ShowMessage(L"Не выбраны данные для редактирования");
-		return;
-	}
+    if ( CountForDay < 1 || row < 1 || row > CountForDay )
+    {
+        ShowMessage(L"Не выбраны данные для редактирования");
+        return;
+    }
 
-	String Name = gridCalendar->Cells[0][row];
+    String Name = gridCalendar->Cells[0][row];
 
-	if (Name == "")
-	{
-		ShowMessage(L"Не выбраны данные для редактирования");
-		return;
-	}
+    if (Name == "")
+    {
+        ShowMessage(L"Не выбраны данные для редактирования");
+        return;
+    }
 
-	float amount = StrToFloatDef( gridCalendar->Cells[5][row], 0);
+    float amount = StrToFloatDef( gridCalendar->Cells[5][row], 0);
 
-	String res = InputBox(L"Вопрос", L"Кол-во порций\n" + Name + L"\n?", amount);
+    String res = InputBox(L"Вопрос", L"Кол-во порций\n" + Name + L"\n?", amount);
 
     CorrectDecSeparator(res);
-	amount = StrToFloatDef(res, -1);
+    amount = StrToFloatDef(res, -1);
 
-//	if (res == amount)
+//    if (res == amount)
 //    {
-//		return;
-//	}
+//        return;
+//    }
 
-	if (amount <= 0)
-	{
-		ShowMessage(L"Неверно введено кол-во порций");
-		return;
-	}
+    if (amount <= 0)
+    {
+        ShowMessage(L"Неверно введено кол-во порций");
+        return;
+    }
 
-	if ( !Calendar.Edit(Date, std::make_pair(Name.c_str(), amount)) )
-	{
-		ShowMessage(L"Ошибка при изменении кол-ва порций. Что-то пошло не так");
-		return;
-	}
+    if ( !Calendar.Edit(Date, std::make_pair(Name.c_str(), amount)) )
+    {
+        ShowMessage(L"Ошибка при изменении кол-ва порций. Что-то пошло не так");
+        return;
+    }
 
     PrintCalendar(this);
 }
@@ -761,29 +781,29 @@ void __fastcall TfrmMain::ActionCalendarEditExecute(TObject *Sender)
 
 void __fastcall TfrmMain::ActionCalendarDelExecute(TObject *Sender)
 {
-	TDate Date = cvCalendar->Date;
-	int row = gridCalendar->Selection.Top;
-	int CountForDay = Calendar.GetCountForDay(Date);
+    TDate Date = cvCalendar->Date;
+    int row = gridCalendar->Selection.Top;
+    int CountForDay = Calendar.GetCountForDay(Date);
 
-	if ( CountForDay < 1 || row < 1 || row > CountForDay )
-	{
-		ShowMessage(L"Не выбраны данные для удаления");
-		return;
-	}
+    if ( CountForDay < 1 || row < 1 || row > CountForDay )
+    {
+        ShowMessage(L"Не выбраны данные для удаления");
+        return;
+    }
 
-	String Name = gridCalendar->Cells[0][row];
+    String Name = gridCalendar->Cells[0][row];
 
-	if (Name == "")
-	{
-		ShowMessage(L"Не выбраны данные для удаления");
-		return;
-	}
+    if (Name == "")
+    {
+        ShowMessage(L"Не выбраны данные для удаления");
+        return;
+    }
 
-	if ( !Calendar.Del(Date, Name.c_str()) )
-	{
-		ShowMessage(L"Ошибка. Не удается удалить блюдо");
-		return;
-	}
+    if ( !Calendar.Del(Date, Name.c_str()) )
+    {
+        ShowMessage(L"Ошибка. Не удается удалить блюдо");
+        return;
+    }
 
     PrintCalendar(this);
 }
@@ -803,18 +823,18 @@ void __fastcall TfrmMain::ActionSettingsSettingsExecute(TObject *Sender)
 void TfrmMain::SaveSettings() const
 {
     String dn = ExtractFilePath(Application->ExeName);
-	String fn = dn + "Settings.ini";
+    String fn = dn + "Settings.ini";
 
     std::unique_ptr<TIniFile> Ini;
 
-	try
+    try
     {
-		Ini = std::make_unique<TIniFile>(fn);
-	}
-	catch (...)
+        Ini = std::make_unique<TIniFile>(fn);
+    }
+    catch (...)
     {
-		ShowMessage(L"Ошибка открытия ini-файла с настройками программы");
-	}
+        ShowMessage(L"Ошибка открытия ini-файла с настройками программы");
+    }
 
     Ini->WriteTime("Global", "StartDayTime", Settings.StartDayTime);
 }
@@ -822,19 +842,19 @@ void TfrmMain::SaveSettings() const
 
 void TfrmMain::LoadSettings()
 {
-	String dn = ExtractFilePath(Application->ExeName);
-	String fn = dn + "Settings.ini";
+    String dn = ExtractFilePath(Application->ExeName);
+    String fn = dn + "Settings.ini";
 
     std::unique_ptr<TIniFile> Ini;
 
-	try
+    try
     {
-		Ini = std::make_unique<TIniFile>(fn);
-	}
-	catch (...)
+        Ini = std::make_unique<TIniFile>(fn);
+    }
+    catch (...)
     {
-		ShowMessage(L"Ошибка открытия ini-файла с настройками программы");
-	}
+        ShowMessage(L"Ошибка открытия ini-файла с настройками программы");
+    }
 
     Settings.StartDayTime = TimeOf(Ini->ReadTime("Global", "StartDayTime", String("00:00:00")));
 }
@@ -843,6 +863,12 @@ void TfrmMain::LoadSettings()
 void __fastcall TfrmMain::FormClose(TObject *Sender, TCloseAction &Action)
 {
     SaveSettings();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::ActionCalendarExportExecute(TObject *Sender)
+{
+    // ---
 }
 //---------------------------------------------------------------------------
 

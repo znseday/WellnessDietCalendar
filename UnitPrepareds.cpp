@@ -12,33 +12,33 @@ using namespace std;
 
 bool PreparedsClass::Add(const std::wstring &_name, const PreparedStruct &_Prepared)
 {
-	auto res = Data.insert( make_pair(_name, _Prepared) );
+    auto res = Data.insert( make_pair(_name, _Prepared) );
 
-	if (res.second)
+    if (res.second)
         IsSaved = false;
 
-	return res.second;
+    return res.second;
 }
 //---------------------------------------------------------------------------
 
 bool PreparedsClass::Edit(const std::wstring &_name, const PreparedStruct &_Prepared)
 {
-	auto it = Data.find(_name);
+    auto it = Data.find(_name);
 
     if (it == Data.end())
         return false;
 
-	it->second = _Prepared;
+    it->second = _Prepared;
 
     IsSaved = false;
 
-	return true;
+    return true;
 }
 //---------------------------------------------------------------------------
 
 bool PreparedsClass::Del(const std::wstring &_name)
 {
-	auto it = Data.find(_name);
+    auto it = Data.find(_name);
 
     if (it == Data.end())
         return false;
@@ -53,10 +53,10 @@ bool PreparedsClass::Del(const std::wstring &_name)
 
 PreparedStruct PreparedsClass::GetPrepared(const std::wstring &_name) const
 {
-	auto it = Data.find(_name);
+    auto it = Data.find(_name);
 
-	if (it == Data.end())
-		return PreparedStruct();
+    if (it == Data.end())
+        return PreparedStruct();
 
     return it->second;
 }
@@ -64,18 +64,18 @@ PreparedStruct PreparedsClass::GetPrepared(const std::wstring &_name) const
 
 bool PreparedsClass::CheckPreparedExists(const std::wstring &_name) const
 {
-	auto it = Data.find(_name);
+    auto it = Data.find(_name);
 
-	return it != Data.end();
+    return it != Data.end();
 }
 //---------------------------------------------------------------------------
 
 BJUKM_Struct PreparedsClass::GetBJUKM(const std::wstring &_name) const
 {
-	auto it = Data.find(_name);
+    auto it = Data.find(_name);
 
     if (it == Data.end())
-		return BJUKM_Struct();
+        return BJUKM_Struct();
 
     return it->second.Finished;
 }

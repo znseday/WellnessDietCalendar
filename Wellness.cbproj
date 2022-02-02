@@ -219,9 +219,9 @@
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <FormResources Include="FormBasesAddEdit.dfm"/>
-        <FormResources Include="FormMainWellness.dfm"/>
         <FormResources Include="FormPreparedAddEdit.dfm"/>
+        <FormResources Include="FormMainWellness.dfm"/>
+        <FormResources Include="FormBasesAddEdit.dfm"/>
         <FormResources Include="FormSettings.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

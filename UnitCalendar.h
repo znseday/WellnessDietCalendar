@@ -22,32 +22,32 @@ using CalendarMap     = std::map<TDate, OneDayMap >;
 class CalendarClass
 {
 protected:
-	CalendarMap Calendar;
-	bool IsSaved = true;
+    CalendarMap Calendar;
+    bool IsSaved = true;
 
 public:
-	CalendarClass() = default;
+    CalendarClass() = default;
 
-	bool Add(TDate _Date, const OnePreparedPair &_OnePreparedPair);
+    bool Add(TDate _Date, const OnePreparedPair &_OnePreparedPair);
 
-	bool Edit(TDate _Date, const OnePreparedPair &_OnePreparedPair);
+    bool Edit(TDate _Date, const OnePreparedPair &_OnePreparedPair);
 
-	bool Del(TDate _Date, const std::wstring &_name);
+    bool Del(TDate _Date, const std::wstring &_name);
 
-	int GetCountOfMonth() const {return Calendar.size();}
-	int GetCountForDay(TDate _Date) const;
+    int GetCountOfMonth() const {return Calendar.size();}
+    int GetCountForDay(TDate _Date) const;
 
-	bool GetIsSaved() const {return IsSaved;}
+    bool GetIsSaved() const {return IsSaved;}
 
-	void ClearTable(TStringGrid *grid) const;
-	void PrintOneDayToTable(TDate _Date, TStringGrid *grid,
-				HowToSort _SortType, String _SearchString,
-				PreparedsBuilder *pPrepareds) const;
+    void ClearTable(TStringGrid *grid) const;
+    void PrintOneDayToTable(TDate _Date, TStringGrid *grid,
+                HowToSort _SortType, String _SearchString,
+                PreparedsBuilder *pPrepareds) const;
 
-	bool SaveToJSON(String _FullFileName);
+    bool SaveToJSON(String _FullFileName);
 
-	void ProcessOneDay(TDate _Date, std::unique_ptr<TJsonTextReader> &Reader);
-	bool LoadFromJSON(String _FullFileName);
+    void ProcessOneDay(TDate _Date, std::unique_ptr<TJsonTextReader> &Reader);
+    bool LoadFromJSON(String _FullFileName);
 };
 
 

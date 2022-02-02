@@ -14,64 +14,64 @@
 //---------------------------------------------------------------------------
 class TfrmPreparedsAddEdit : public TForm
 {
-__published:	// IDE-managed Components
-	TGroupBox *GroupBox1;
-	TRadioButton *rbFinished;
-	TRadioButton *rbBuild;
-	TStringGrid *gridList;
-	TButton *btnAddFromBases;
-	TButton *btnCancel;
-	TButton *btnDone;
-	TLabel *Label1;
-	TEdit *EditName;
-	TLabel *Label2;
-	TEdit *EditB;
-	TLabel *Label3;
-	TEdit *EditJ;
-	TLabel *Label4;
-	TEdit *EditU;
-	TLabel *Label5;
-	TEdit *EditK;
-	TLabel *Label6;
-	TEdit *EditM;
-	TLabel *Label7;
-	TEdit *EditCost;
-	TButton *btnReCalc;
-	TButton *btnEditM;
-	TEdit *EditSearchBases;
-	TListBox *lbBases;
-	TLabel *Label8;
-	void __fastcall rbFinishedClick(TObject *Sender);
-	void __fastcall rbBuildClick(TObject *Sender);
-	void __fastcall btnCancelClick(TObject *Sender);
-	void __fastcall btnDoneClick(TObject *Sender);
-	void __fastcall btnReCalcClick(TObject *Sender);
-	void __fastcall btnAddFromBasesClick(TObject *Sender);
-	void __fastcall btnEditMClick(TObject *Sender);
-	void __fastcall EditSearchBasesChange(TObject *Sender);
-	void __fastcall EditSearchBasesKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
-	void __fastcall lbBasesDblClick(TObject *Sender);
-	void __fastcall lbBasesKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
-	void __fastcall EditSearchBasesKeyPress(TObject *Sender, System::WideChar &Key);
+__published:    // IDE-managed Components
+    TGroupBox *GroupBox1;
+    TRadioButton *rbFinished;
+    TRadioButton *rbBuild;
+    TStringGrid *gridList;
+    TButton *btnAddFromBases;
+    TButton *btnCancel;
+    TButton *btnDone;
+    TLabel *Label1;
+    TEdit *EditName;
+    TLabel *Label2;
+    TEdit *EditB;
+    TLabel *Label3;
+    TEdit *EditJ;
+    TLabel *Label4;
+    TEdit *EditU;
+    TLabel *Label5;
+    TEdit *EditK;
+    TLabel *Label6;
+    TEdit *EditM;
+    TLabel *Label7;
+    TEdit *EditCost;
+    TButton *btnReCalc;
+    TButton *btnEditM;
+    TEdit *EditSearchBases;
+    TListBox *lbBases;
+    TLabel *Label8;
+    void __fastcall rbFinishedClick(TObject *Sender);
+    void __fastcall rbBuildClick(TObject *Sender);
+    void __fastcall btnCancelClick(TObject *Sender);
+    void __fastcall btnDoneClick(TObject *Sender);
+    void __fastcall btnReCalcClick(TObject *Sender);
+    void __fastcall btnAddFromBasesClick(TObject *Sender);
+    void __fastcall btnEditMClick(TObject *Sender);
+    void __fastcall EditSearchBasesChange(TObject *Sender);
+    void __fastcall EditSearchBasesKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+    void __fastcall lbBasesDblClick(TObject *Sender);
+    void __fastcall lbBasesKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+    void __fastcall EditSearchBasesKeyPress(TObject *Sender, System::WideChar &Key);
 
 
-private:	// User declarations
+private:    // User declarations
 
     PreparedStruct Prepared;
 
-	void ClearTable();
+    void ClearTable();
 
     BasesBuilder *pBases;
     PreparedsBuilder *pPrepareds;
 
     bool StateIsNew;
 
-public:		// User declarations
-	__fastcall TfrmPreparedsAddEdit(TComponent* Owner);
+public:        // User declarations
+    __fastcall TfrmPreparedsAddEdit(TComponent* Owner);
 
     void InitPointers(BasesBuilder *_pBases, PreparedsBuilder *_pPrepareds)
     {
-    	pBases = _pBases;
+        pBases = _pBases;
         pPrepareds = _pPrepareds;
     }
 
@@ -82,9 +82,9 @@ public:		// User declarations
     void SwitchToBuild();
 
     void SetItIsNew() {StateIsNew = true;}
-	void SetItIsEdit() {StateIsNew = false;}
+    void SetItIsEdit() {StateIsNew = false;}
 
-	void InitBasesList();
+    void InitBasesList();
 
     void InitControls();
 };

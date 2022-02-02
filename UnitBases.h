@@ -9,18 +9,18 @@
 
 enum class HowToSort
 {
-	Name,
-	B,
-	J,
-	U,
-	K,
-	Cost,
-	M
+    Name,
+    B,
+    J,
+    U,
+    K,
+    Cost,
+    M
 };
 
 struct BJUK_Struct
 {
-	float B, J, U, K, Cost;
+    float B, J, U, K, Cost;
 
     BJUK_Struct() : B(0), J(0), U(0), K(0), Cost(0) {}
 
@@ -34,12 +34,12 @@ using BasesPair = std::pair<std::wstring,BJUK_Struct>;
 class BasesClass
 {
 protected:
-	BasesMap Data;
-	bool IsSaved = true;
+    BasesMap Data;
+    bool IsSaved = true;
 
 public:
 
-	BasesClass() = default;
+    BasesClass() = default;
 
     bool Add(const std::wstring &_name, float _B, float _J, float _U, float _K, float _Cost);
 
@@ -47,13 +47,13 @@ public:
 
     bool Del(const std::wstring &_name);
 
-	int GetCount() const {return Data.size();}
+    int GetCount() const {return Data.size();}
 
-	bool CheckBaseExists(const std::wstring &_name) const;
+    bool CheckBaseExists(const std::wstring &_name) const;
 
-	BJUK_Struct GetBJUK(const std::wstring &_name) const;
+    BJUK_Struct GetBJUK(const std::wstring &_name) const;
 
-	bool GetIsSaved() const {return IsSaved;}
+    bool GetIsSaved() const {return IsSaved;}
 };
 
 

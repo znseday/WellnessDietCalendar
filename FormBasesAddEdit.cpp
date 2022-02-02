@@ -10,7 +10,7 @@
 TfrmBasesAddEdit *frmBasesAddEdit;
 //---------------------------------------------------------------------------
 __fastcall TfrmBasesAddEdit::TfrmBasesAddEdit(TComponent* Owner)
-	: TForm(Owner)
+    : TForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
@@ -26,10 +26,10 @@ void __fastcall TfrmBasesAddEdit::btnCancelClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TfrmBasesAddEdit::FormShow(TObject *Sender)
 {
-	if (EditName->Enabled)
-	{
+    if (EditName->Enabled)
+    {
         EditName->SetFocus();
-	}
+    }
 }
 //---------------------------------------------------------------------------
 
