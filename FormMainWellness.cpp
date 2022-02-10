@@ -835,10 +835,21 @@ void __fastcall TfrmMain::ActionCalendarDelExecute(TObject *Sender)
 void __fastcall TfrmMain::ActionSettingsSettingsExecute(TObject *Sender)
 {
     frmSettings->dtpStartDayTime->Time = Settings.StartDayTime;
+    frmSettings->EditM->Text = Settings.M_Person;
+    frmSettings->EditB->Text = Settings.B_udel;
+    frmSettings->EditJ->Text = Settings.J_udel;
+    frmSettings->EditU->Text = Settings.U_udel;
+    frmSettings->EditK->Text = Settings.K_target;
 
     if ( frmSettings->ShowModal() == mrOk )
     {
         Settings.StartDayTime = frmSettings->dtpStartDayTime->Time;
+
+        Settings.M_Person = frmSettings->EditM->Text.ToDouble();
+        Settings.B_udel = frmSettings->EditB->Text.ToDouble();
+        Settings.J_udel = frmSettings->EditJ->Text.ToDouble();
+        Settings.U_udel = frmSettings->EditU->Text.ToDouble();
+        Settings.K_target = frmSettings->EditK->Text.ToDouble();
     }
 }
 //---------------------------------------------------------------------------
@@ -860,6 +871,12 @@ void TfrmMain::SaveSettings() const
     }
 
     Ini->WriteTime("Global", "StartDayTime", Settings.StartDayTime);
+
+    Ini->WriteFloat("Global", "M_Person", Settings.M_Person);
+    Ini->WriteFloat("Global", "B_udel",   Settings.B_udel);
+    Ini->WriteFloat("Global", "J_udel",   Settings.J_udel);
+    Ini->WriteFloat("Global", "U_udel",   Settings.U_udel);
+    Ini->WriteFloat("Global", "K_target", Settings.K_target);
 }
 //---------------------------------------------------------------------------
 
@@ -880,6 +897,12 @@ void TfrmMain::LoadSettings()
     }
 
     Settings.StartDayTime = TimeOf(Ini->ReadTime("Global", "StartDayTime", String("00:00:00")));
+
+    Settings.M_Person = Ini->ReadFloat("Global", "M_Person", 80);
+    Settings.B_udel =   Ini->ReadFloat("Global", "B_udel",   1.8);
+    Settings.J_udel =   Ini->ReadFloat("Global", "J_udel",   0.8);
+    Settings.U_udel =   Ini->ReadFloat("Global", "U_udel",   2.0);
+    Settings.K_target = Ini->ReadFloat("Global", "K_target", 1800);
 }
 //---------------------------------------------------------------------------
 
