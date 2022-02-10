@@ -370,8 +370,6 @@ object frmMain: TfrmMain
         Height = 539
         Align = alRight
         TabOrder = 0
-        ExplicitLeft = 929
-        ExplicitTop = 39
         object cvCalendar: TCalendarView
           Left = 1
           Top = 1
@@ -646,6 +644,9 @@ object frmMain: TfrmMain
       end
       object N24: TMenuItem
         Caption = '-'
+      end
+      object N26: TMenuItem
+        Action = ActionCalendarExport
       end
     end
     object Y1: TMenuItem

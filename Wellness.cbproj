@@ -120,6 +120,9 @@
         <CLANG_UnwindTables>true</CLANG_UnwindTables>
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
+        <BCC_NumberOfIndexingThreads>8</BCC_NumberOfIndexingThreads>
+        <BCC_PCHUsage>None</BCC_PCHUsage>
+        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -138,12 +141,16 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <BCC_PCHUsage>None</BCC_PCHUsage>
+        <BCC_EnableLSPIndexing>true</BCC_EnableLSPIndexing>
+        <BCC_ShowLSPMessages>true</BCC_ShowLSPMessages>
+        <BCC_EnableLSPIndexingOnChange>true</BCC_EnableLSPIndexingOnChange>
+        <BCC_GenerateLSPLog>true</BCC_GenerateLSPLog>
+        <BCC_GenerateInOutFiles>true</BCC_GenerateInOutFiles>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
-        <VerInfo_Locale>1049</VerInfo_Locale>
-        <VerInfo_Keys>FileVersion=1.0.0.0</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -169,6 +176,12 @@
             <FormType>dfm</FormType>
             <DependentOn>FormBasesAddEdit.h</DependentOn>
             <BuildOrder>2</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="FormExport.cpp">
+            <Form>frmExport</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>FormExport.h</DependentOn>
+            <BuildOrder>12</BuildOrder>
         </CppCompile>
         <CppCompile Include="FormMainWellness.cpp">
             <Form>frmMain</Form>
@@ -219,10 +232,11 @@
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <FormResources Include="FormPreparedAddEdit.dfm"/>
         <FormResources Include="FormMainWellness.dfm"/>
+        <FormResources Include="FormExport.dfm"/>
         <FormResources Include="FormBasesAddEdit.dfm"/>
         <FormResources Include="FormSettings.dfm"/>
+        <FormResources Include="FormPreparedAddEdit.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

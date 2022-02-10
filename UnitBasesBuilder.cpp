@@ -137,7 +137,7 @@ void BasesBuilder::PrintToTable(TStringGrid *grid, HowToSort _SortType,
                 std::sort(vectorData.begin(), vectorData.end(), []
                 (const BasesPair &a, const BasesPair &b)
                 {
-                        return a.second.K > b.second.K;
+                        return a.second.K > b.second.K ;
                 });
             break;
             case HowToSort::Cost:

@@ -47,6 +47,7 @@ Thumbs.db
 /Temp
 /Win64/Debug
 /Win64/Release/*
+__astcache/
 
 # But exceptions:
 !Win64/Release/Bases.json

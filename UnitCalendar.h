@@ -48,6 +48,10 @@ public:
 
     void ProcessOneDay(TDate _Date, std::unique_ptr<TJsonTextReader> &Reader);
     bool LoadFromJSON(String _FullFileName);
+
+    void ExportToStdStream(TDate _DateFrom, TDate _DateTo,
+                                 PreparedsBuilder *pPrepareds,
+                                 std::ostream &stream) const;
 };
 
 

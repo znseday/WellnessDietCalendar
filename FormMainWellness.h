@@ -135,6 +135,7 @@ __published:    // IDE-managed Components
     TRadioButton *rbCalendarSortK;
     TRadioButton *rbCalendarSortCost;
     TAction *ActionCalendarExport;
+    TMenuItem *N26;
     void __fastcall ActionFileCloseExecute(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
     void __fastcall ActionBasesSaveAsExecute(TObject *Sender);

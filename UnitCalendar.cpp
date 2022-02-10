@@ -127,19 +127,32 @@ void CalendarClass::PrintOneDayToTable(TDate _Date, TStringGrid *grid,
 
     //std::vector<std::pair<std::wstring, float>> vectorData( it_date->second.cbegin(), it_date->second.cend() );
 
-    if (_SortType == HowToSort::Name)
-    {
+    std::vector<std::tuple<std::wstring, BJUKM_Struct, float>> vectorDataToPrint;
+
+//    if (_SortType == HowToSort::Name)
+//    {
         for (auto it = it_date->second.cbegin(); it != it_date->second.cend(); ++it)
         //for (auto it = vectorData.cbegin(); it != vectorData.cend(); ++it)
         {
             BJUKM_Struct BJUKM = pPrepareds->GetBJUKM(it->first.c_str());
 
-            BJUKM_summ.B += BJUKM.B * it->second;
-            BJUKM_summ.J += BJUKM.J * it->second;
-            BJUKM_summ.U += BJUKM.U * it->second;
-            BJUKM_summ.K += BJUKM.K * it->second;
-            BJUKM_summ.M += BJUKM.M * it->second;
-            BJUKM_summ.Cost += BJUKM.Cost * it->second;
+            BJUKM *= it->second;
+
+            BJUKM_summ += BJUKM;
+
+//            BJUKM_summ.B += BJUKM.B * it->second;
+//            BJUKM_summ.J += BJUKM.J * it->second;
+//            BJUKM_summ.U += BJUKM.U * it->second;
+//            BJUKM_summ.K += BJUKM.K * it->second;
+//            BJUKM_summ.M += BJUKM.M * it->second;
+//            BJUKM_summ.Cost += BJUKM.Cost * it->second;
+
+//            BJUKM_summ.B += BJUKM.B * it->second;
+//            BJUKM_summ.J += BJUKM.J * it->second;
+//            BJUKM_summ.U += BJUKM.U * it->second;
+//            BJUKM_summ.K += BJUKM.K * it->second;
+//            BJUKM_summ.M += BJUKM.M * it->second;
+//            BJUKM_summ.Cost += BJUKM.Cost * it->second;
 
 
             if (SearchStringLength > 0)
@@ -152,24 +165,45 @@ void CalendarClass::PrintOneDayToTable(TDate _Date, TStringGrid *grid,
                     continue;
             }
 
-            if (i > 1)
-                grid->RowCount++;
+            vectorDataToPrint.emplace_back(it->first.c_str(), BJUKM, it->second);
 
-            grid->Cells[0][i] = it->first.c_str();
-
-//            BJUKM.B * it->second;
-
-            grid->Cells[1][i] = FloatToStrF(BJUKM.B * it->second, ffFixed, 12, 1);
-            grid->Cells[2][i] = FloatToStrF(BJUKM.J * it->second, ffFixed, 12, 1);
-            grid->Cells[3][i] = FloatToStrF(BJUKM.U * it->second, ffFixed, 12, 1);
-            grid->Cells[4][i] = FloatToStrF(BJUKM.K * it->second, ffFixed, 12, 1);
-            grid->Cells[5][i] = FloatToStrF(it->second, ffFixed, 12, 2);
-            grid->Cells[6][i] = FloatToStrF(BJUKM.M * it->second, ffFixed, 12, 1);
-            grid->Cells[7][i] = FloatToStrF(BJUKM.Cost * it->second, ffFixed, 12, 1);
-
-            ++i;
+//            if (i > 1)
+//                grid->RowCount++;
+//
+//            grid->Cells[0][i] = it->first.c_str();
+//
+//            grid->Cells[1][i] = FloatToStrF(BJUKM.B * it->second, ffFixed, 12, 1);
+//            grid->Cells[2][i] = FloatToStrF(BJUKM.J * it->second, ffFixed, 12, 1);
+//            grid->Cells[3][i] = FloatToStrF(BJUKM.U * it->second, ffFixed, 12, 1);
+//            grid->Cells[4][i] = FloatToStrF(BJUKM.K * it->second, ffFixed, 12, 1);
+//            grid->Cells[5][i] = FloatToStrF(it->second, ffFixed, 12, 2);
+//            grid->Cells[6][i] = FloatToStrF(BJUKM.M * it->second, ffFixed, 12, 1);
+//            grid->Cells[7][i] = FloatToStrF(BJUKM.Cost * it->second, ffFixed, 12, 1);
+//
+//            ++i;
         }
+//    }
+
+    for (const auto & item : vectorDataToPrint)
+    {
+        const BJUKM_Struct & BJUKM = std::get<1>(item);
+
+        if (i > 1)
+            grid->RowCount++;
+
+        grid->Cells[0][i] = std::get<0>(item).c_str();
+
+        grid->Cells[1][i] = FloatToStrF(BJUKM.B, ffFixed, 12, 1);
+        grid->Cells[2][i] = FloatToStrF(BJUKM.J, ffFixed, 12, 1);
+        grid->Cells[3][i] = FloatToStrF(BJUKM.U, ffFixed, 12, 1);
+        grid->Cells[4][i] = FloatToStrF(BJUKM.K, ffFixed, 12, 1);
+        grid->Cells[5][i] = FloatToStrF(std::get<2>(item), ffFixed, 12, 2);
+        grid->Cells[6][i] = FloatToStrF(BJUKM.M, ffFixed, 12, 1);
+        grid->Cells[7][i] = FloatToStrF(BJUKM.Cost, ffFixed, 12, 1);
+
+        ++i;
     }
+
 
     for (int j = 0; j < 8; j++)
         grid->Cells[j][i] = L"";
@@ -191,6 +225,51 @@ void CalendarClass::PrintOneDayToTable(TDate _Date, TStringGrid *grid,
     grid->Cells[6][i] = FloatToStrF(BJUKM_summ.M, ffFixed, 12, 1);
     grid->Cells[7][i] = FloatToStrF(BJUKM_summ.Cost, ffFixed, 12, 1);
 
+}
+//---------------------------------------------------------------------------
+
+void CalendarClass::ExportToStdStream(TDate _DateFrom, TDate _DateTo,
+                                 PreparedsBuilder *pPrepareds,
+                                 std::ostream &stream) const
+{
+    int fuse = 0;
+    for (TDate CurDate = _DateFrom; CurDate <= _DateTo; CurDate += 1)
+    {
+        auto it_date = Calendar.find(CurDate);   // pair<TDate, OneDayMap>
+
+        if (it_date == Calendar.end())
+            continue;
+
+        BJUKM_Struct BJUKM_summ;
+
+        //std::vector<std::pair<std::wstring, float>> vectorData( it_date->second.cbegin(), it_date->second.cend() );
+        for (auto it = it_date->second.cbegin(); it != it_date->second.cend(); ++it)
+        {
+            BJUKM_Struct BJUKM = pPrepareds->GetBJUKM(it->first.c_str());
+
+            BJUKM_summ.B += BJUKM.B * it->second;
+            BJUKM_summ.J += BJUKM.J * it->second;
+            BJUKM_summ.U += BJUKM.U * it->second;
+            BJUKM_summ.K += BJUKM.K * it->second;
+            BJUKM_summ.M += BJUKM.M * it->second;
+            BJUKM_summ.Cost += BJUKM.Cost * it->second;
+        }
+
+
+        stream << CurDate.DateString().c_str() << "\t";
+        stream << BJUKM_summ.B << "\t";
+        stream << BJUKM_summ.J << "\t";
+        stream << BJUKM_summ.U << "\t";
+        stream << BJUKM_summ.K << "\t";
+        stream << BJUKM_summ.Cost << "\t";
+        stream << "\n";
+
+        if (++fuse > 10000)
+        {
+            ShowMessage(L"fuse > 10000");
+            return;
+        }
+    }
 }
 //---------------------------------------------------------------------------
 

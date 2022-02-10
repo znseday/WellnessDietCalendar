@@ -11,6 +11,7 @@
 #include "FormBasesAddEdit.h"
 #include "FormPreparedAddEdit.h"
 #include "FormSettings.h"
+#include "FormExport.h"
 
 #include "Misc.h"
 
@@ -45,7 +46,7 @@ void __fastcall TfrmMain::FormCreate(TObject *Sender)
     PrintPrepareds(this);
     PrintCalendar(this);
 
-    lbCalendarPrepareds->Height = 100;
+    lbCalendarPrepareds->Height = 200;
 
     pcMain->ActivePage = tsCalendar;
 }
@@ -500,6 +501,9 @@ void __fastcall TfrmMain::PrintPrepareds(TObject *Sender)
 
 void __fastcall TfrmMain::FormShow(TObject *Sender)
 {
+    frmExport->dtpFrom->Date = Date();
+    frmExport->dtpTo->Date   = Date();
+
     frmPreparedsAddEdit->InitPointers(&Bases, &Prepareds);
 }
 //---------------------------------------------------------------------------
@@ -529,9 +533,11 @@ void __fastcall TfrmMain::EditCalendarPreparedSearchChange(TObject *Sender)
     Prepareds.PrintToListBox(lbCalendarPrepareds, SearchString);
 
     if (SearchString.Length() > 0)
-        btnCalendarAdd->Enabled = true;
+       ActionCalendarAdd->Enabled = true;
+//        btnCalendarAdd->Enabled = true;
     else
-        btnCalendarAdd->Enabled = false;
+//        btnCalendarAdd->Enabled = false;
+       ActionCalendarAdd->Enabled = false;
 }
 //---------------------------------------------------------------------------
 
@@ -701,6 +707,7 @@ void __fastcall TfrmMain::ActionCalendarAddExecute(TObject *Sender)
 {
     String Name;
     int ind = lbCalendarPrepareds->ItemIndex;
+
     if (ind < 0)
     {
         Name = EditCalendarPreparedSearch->Text;
@@ -884,7 +891,21 @@ void __fastcall TfrmMain::FormClose(TObject *Sender, TCloseAction &Action)
 
 void __fastcall TfrmMain::ActionCalendarExportExecute(TObject *Sender)
 {
-    // ---
+    if (frmExport->ShowModal() == mrOk)
+    {
+        String fn = frmExport->dlgSave->FileName;
+        if (fn.Length() > 3)
+        {
+            std::ofstream f(AnsiString(fn).c_str());
+
+            Calendar.ExportToStdStream(frmExport->dtpFrom->Date,
+                                       frmExport->dtpTo->Date,
+                                       &Prepareds,
+                                       f);
+
+            f.close();
+        }
+    }
 }
 //---------------------------------------------------------------------------
 
@@ -896,13 +917,13 @@ void __fastcall TfrmMain::lbCalendarPreparedsExit(TObject *Sender)
 
 void __fastcall TfrmMain::lbCalendarPreparedsMouseLeave(TObject *Sender)
 {
-    int ind = lbCalendarPrepareds->ItemIndex;
-    if (ind >= 0)
-    {
-        EditCalendarPreparedSearch->Text = lbCalendarPrepareds->Items->Strings[ind];
-    }
-
-    lbCalendarPrepareds->Hide();
+//    int ind = lbCalendarPrepareds->ItemIndex;
+//    if (ind >= 0)
+//    {
+//        EditCalendarPreparedSearch->Text = lbCalendarPrepareds->Items->Strings[ind];
+//    }
+//
+//    lbCalendarPrepareds->Hide();
 }
 //---------------------------------------------------------------------------
 
