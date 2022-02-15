@@ -26,9 +26,17 @@ __published:	// IDE-managed Components
     TEdit *EditJ;
     TEdit *EditU;
     TLabel *Label6;
+    TLabel *lblK_formal;
     void __fastcall btnCancelClick(TObject *Sender);
     void __fastcall btnOkClick(TObject *Sender);
+    void __fastcall EditBChange(TObject *Sender);
+    void __fastcall EditJChange(TObject *Sender);
+    void __fastcall EditUChange(TObject *Sender);
+    void __fastcall EditMChange(TObject *Sender);
 private:	// User declarations
+
+    void CalcAndPrintFormalK();
+
 public:		// User declarations
     __fastcall TfrmSettings(TComponent* Owner);
 };

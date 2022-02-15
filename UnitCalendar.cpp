@@ -256,7 +256,13 @@ void CalendarClass::ExportToStdStream(TDate _DateFrom, TDate _DateTo,
         }
 
 
-        stream << CurDate.DateString().c_str() << "\t";
+
+//        DecodeDate(CurDate, y, m, d);
+
+        AnsiString dateStr = DateToStr(CurDate);
+
+        stream << dateStr.c_str() << "\t";
+
         stream << BJUKM_summ.B << "\t";
         stream << BJUKM_summ.J << "\t";
         stream << BJUKM_summ.U << "\t";

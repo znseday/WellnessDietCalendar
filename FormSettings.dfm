@@ -51,10 +51,17 @@ object frmSettings: TfrmSettings
   end
   object Label6: TLabel
     Left = 16
-    Top = 174
+    Top = 198
     Width = 155
     Height = 13
     Caption = #1062#1077#1083#1077#1074#1072#1103' '#1082#1072#1083#1083#1086#1088#1080#1081#1085#1086#1089#1090#1100', '#1082#1082#1072#1083
+  end
+  object lblK_formal: TLabel
+    Left = 16
+    Top = 168
+    Width = 159
+    Height = 13
+    Caption = #1060#1086#1088#1084#1072#1083#1100#1085#1072#1103' '#1082#1072#1083#1086#1088#1080#1081#1085#1086#1089#1090#1100': n/a'
   end
   object dtpStartDayTime: TDateTimePicker
     Left = 219
@@ -94,10 +101,11 @@ object frmSettings: TfrmSettings
     Height = 21
     TabOrder = 3
     Text = '80'
+    OnChange = EditMChange
   end
   object EditK: TEdit
     Left = 191
-    Top = 171
+    Top = 195
     Width = 77
     Height = 21
     TabOrder = 4
@@ -110,6 +118,7 @@ object frmSettings: TfrmSettings
     Height = 21
     TabOrder = 5
     Text = '0'
+    OnChange = EditBChange
   end
   object EditJ: TEdit
     Left = 136
@@ -118,6 +127,7 @@ object frmSettings: TfrmSettings
     Height = 21
     TabOrder = 6
     Text = '0'
+    OnChange = EditJChange
   end
   object EditU: TEdit
     Left = 136
@@ -126,5 +136,6 @@ object frmSettings: TfrmSettings
     Height = 21
     TabOrder = 7
     Text = '0'
+    OnChange = EditUChange
   end
 end

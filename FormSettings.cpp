@@ -76,3 +76,72 @@ void __fastcall TfrmSettings::btnOkClick(TObject *Sender)
     ModalResult = mrOk;
 }
 //---------------------------------------------------------------------------
+
+void TfrmSettings::CalcAndPrintFormalK()
+{
+    String t = EditM->Text;
+    CorrectDecSeparator(t);
+    double M = StrToFloatDef(t, -1);
+    if (M < 0)
+    {
+        lblK_formal->Caption = L"Формальная калорийность: n/a";
+        return;
+    }
+
+    t = EditB->Text;
+    CorrectDecSeparator(t);
+    double B = StrToFloatDef(t, -1);
+    if (B < 0)
+    {
+        lblK_formal->Caption = L"Формальная калорийность: n/a";
+        return;
+    }
+
+    t = EditJ->Text;
+    CorrectDecSeparator(t);
+    double J = StrToFloatDef(t, -1);
+    if (J < 0)
+    {
+        lblK_formal->Caption = L"Формальная калорийность: n/a";
+        return;
+    }
+
+    t = EditU->Text;
+    CorrectDecSeparator(t);
+    double U = StrToFloatDef(t, -1);
+    if (U < 0)
+    {
+        lblK_formal->Caption = L"Формальная калорийность: n/a";
+        return;
+    }
+
+    double K = (B*4.0 + J*9.0 + U*4.0)*M;
+
+    lblK_formal->Caption = L"Формальная калорийность: " + String(K) + L" ккал" ;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmSettings::EditBChange(TObject *Sender)
+{
+    CalcAndPrintFormalK();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmSettings::EditJChange(TObject *Sender)
+{
+    CalcAndPrintFormalK();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmSettings::EditUChange(TObject *Sender)
+{
+    CalcAndPrintFormalK();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmSettings::EditMChange(TObject *Sender)
+{
+    CalcAndPrintFormalK();
+}
+//---------------------------------------------------------------------------
+
