@@ -184,6 +184,61 @@ void CalendarClass::PrintOneDayToTable(TDate _Date, TStringGrid *grid,
         }
 //    }
 
+    switch (_SortType)
+    {
+        case HowToSort::B:
+            std::sort(vectorDataToPrint.begin(), vectorDataToPrint.end(), []
+                (const auto &a, const auto &b)
+                {
+                    return std::get<1>(a).B > std::get<1>(b).B;
+                }
+            );
+        break;
+        case HowToSort::J:
+            std::sort(vectorDataToPrint.begin(), vectorDataToPrint.end(), []
+                (const auto &a, const auto &b)
+                {
+                    return std::get<1>(a).J > std::get<1>(b).J;
+                }
+            );
+        break;
+        case HowToSort::U:
+            std::sort(vectorDataToPrint.begin(), vectorDataToPrint.end(), []
+                (const auto &a, const auto &b)
+                {
+                    return std::get<1>(a).U > std::get<1>(b).U;
+                }
+            );
+        break;
+        case HowToSort::K:
+            std::sort(vectorDataToPrint.begin(), vectorDataToPrint.end(), []
+                (const auto &a, const auto &b)
+                {
+                    return std::get<1>(a).K > std::get<1>(b).K;
+                }
+            );
+        break;
+        case HowToSort::M:
+            std::sort(vectorDataToPrint.begin(), vectorDataToPrint.end(), []
+                (const auto &a, const auto &b)
+                {
+                    return std::get<1>(a).M > std::get<1>(b).M;
+                }
+            );
+        break;
+        case HowToSort::Cost:
+            std::sort(vectorDataToPrint.begin(), vectorDataToPrint.end(), []
+                (const auto &a, const auto &b)
+                {
+                    return std::get<1>(a).Cost > std::get<1>(b).Cost;
+                }
+            );
+        break;
+        default:
+        ;
+    }
+
+
     for (const auto & item : vectorDataToPrint)
     {
         const BJUKM_Struct & BJUKM = std::get<1>(item);
