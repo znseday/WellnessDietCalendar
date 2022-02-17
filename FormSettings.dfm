@@ -2,7 +2,7 @@ object frmSettings: TfrmSettings
   Left = 0
   Top = 0
   Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
-  ClientHeight = 287
+  ClientHeight = 316
   ClientWidth = 376
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -63,6 +63,20 @@ object frmSettings: TfrmSettings
     Height = 13
     Caption = #1060#1086#1088#1084#1072#1083#1100#1085#1072#1103' '#1082#1072#1083#1086#1088#1080#1081#1085#1086#1089#1090#1100': n/a'
   end
+  object Label7: TLabel
+    Left = 16
+    Top = 230
+    Width = 182
+    Height = 13
+    Caption = #1055#1088#1077#1076#1091#1087#1088#1077#1078#1076#1072#1090#1100', '#1082#1086#1075#1076#1072' '#1076#1086#1089#1090#1080#1075#1085#1091#1090#1086
+  end
+  object Label8: TLabel
+    Left = 287
+    Top = 230
+    Width = 61
+    Height = 13
+    Caption = '% '#1090#1086' '#1085#1086#1088#1084#1099
+  end
   object dtpStartDayTime: TDateTimePicker
     Left = 219
     Top = 12
@@ -75,8 +89,8 @@ object frmSettings: TfrmSettings
     TabOrder = 0
   end
   object btnCancel: TButton
-    Left = 160
-    Top = 255
+    Left = 152
+    Top = 271
     Width = 91
     Height = 25
     Cancel = True
@@ -85,8 +99,8 @@ object frmSettings: TfrmSettings
     OnClick = btnCancelClick
   end
   object btnOk: TButton
-    Left = 272
-    Top = 255
+    Left = 264
+    Top = 271
     Width = 94
     Height = 25
     Caption = 'OK'
@@ -104,7 +118,7 @@ object frmSettings: TfrmSettings
     OnChange = EditMChange
   end
   object EditK: TEdit
-    Left = 191
+    Left = 181
     Top = 195
     Width = 77
     Height = 21
@@ -137,5 +151,13 @@ object frmSettings: TfrmSettings
     TabOrder = 7
     Text = '0'
     OnChange = EditUChange
+  end
+  object EditWarningPercent: TEdit
+    Left = 204
+    Top = 227
+    Width = 77
+    Height = 21
+    TabOrder = 8
+    Text = '0'
   end
 end

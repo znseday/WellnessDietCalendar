@@ -181,6 +181,8 @@ __published:    // IDE-managed Components
     void __fastcall ActionCalendarExportExecute(TObject *Sender);
     void __fastcall lbCalendarPreparedsExit(TObject *Sender);
     void __fastcall lbCalendarPreparedsMouseLeave(TObject *Sender);
+    void __fastcall gridCalendarDrawCell(TObject *Sender, int ACol, int ARow, TRect &Rect,
+          TGridDrawState State);
 
 
 private:    // User declarations
@@ -191,15 +193,7 @@ private:    // User declarations
 
     TDate LastSelectedDate;
 
-    struct SettingsStruct
-    {
-        TTime StartDayTime;
-        double M_Person = 80;
-        double B_udel = 1.5;
-        double J_udel = 0.8;
-        double U_udel = 2.0;
-        double K_target = 1800;
-    } Settings;
+    SettingsStruct Settings;
 
     void SaveSettings() const;
     void LoadSettings();

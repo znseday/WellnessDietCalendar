@@ -106,8 +106,9 @@ void CalendarClass::ClearTable(TStringGrid *grid) const
 //---------------------------------------------------------------------------
 
 void CalendarClass::PrintOneDayToTable(TDate _Date, TStringGrid *grid,
-                                 HowToSort _SortType, String _SearchString,
-                                 PreparedsBuilder *pPrepareds) const
+                                HowToSort _SortType, String _SearchString,
+                                const PreparedsBuilder *pPrepareds,
+                                const SettingsStruct &_settings) const
 {
     ClearTable(grid);
 
@@ -266,10 +267,10 @@ void CalendarClass::PrintOneDayToTable(TDate _Date, TStringGrid *grid,
     ++i;
     if (i <= 2)
     {
-        grid->RowCount = 3;
+        grid->RowCount = 3+2;
     }
     else
-        grid->RowCount += 2;
+        grid->RowCount += 2+2;
 
     grid->Cells[0][i] = L"Итого:";
     grid->Cells[1][i] = FloatToStrF(BJUKM_summ.B, ffFixed, 12, 1);
@@ -280,6 +281,34 @@ void CalendarClass::PrintOneDayToTable(TDate _Date, TStringGrid *grid,
     grid->Cells[6][i] = FloatToStrF(BJUKM_summ.M, ffFixed, 12, 1);
     grid->Cells[7][i] = FloatToStrF(BJUKM_summ.Cost, ffFixed, 12, 1);
 
+    BJUKM_Struct BJUKM_Target = {
+                              float(_settings.B_udel * _settings.M_Person),
+                              float(_settings.J_udel * _settings.M_Person),
+                              float(_settings.U_udel * _settings.M_Person),
+                              float(_settings.K_target),
+                              0,
+                              0
+                 };
+    ++i;
+    grid->Cells[0][i] = L"Норма:";
+    grid->Cells[1][i] = FloatToStrF(BJUKM_Target.B, ffFixed, 12, 1);
+    grid->Cells[2][i] = FloatToStrF(BJUKM_Target.J, ffFixed, 12, 1);
+    grid->Cells[3][i] = FloatToStrF(BJUKM_Target.U, ffFixed, 12, 1);
+    grid->Cells[4][i] = FloatToStrF(BJUKM_Target.K, ffFixed, 12, 1);
+    grid->Cells[5][i] = L"";
+    grid->Cells[6][i] = L"";
+    grid->Cells[7][i] = L"";
+
+    BJUKM_Struct BJUKM_Remain = BJUKM_Target - BJUKM_summ;
+    ++i;
+    grid->Cells[0][i] = L"Осталось:";
+    grid->Cells[1][i] = FloatToStrF(BJUKM_Remain.B, ffFixed, 12, 1);
+    grid->Cells[2][i] = FloatToStrF(BJUKM_Remain.J, ffFixed, 12, 1);
+    grid->Cells[3][i] = FloatToStrF(BJUKM_Remain.U, ffFixed, 12, 1);
+    grid->Cells[4][i] = FloatToStrF(BJUKM_Remain.K, ffFixed, 12, 1);
+    grid->Cells[5][i] = L"";
+    grid->Cells[6][i] = L"";
+    grid->Cells[7][i] = L"";
 }
 //---------------------------------------------------------------------------
 

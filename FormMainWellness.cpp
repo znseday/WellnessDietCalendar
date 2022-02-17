@@ -632,7 +632,8 @@ void __fastcall TfrmMain::PrintCalendar(TObject *Sender)
         return;
     }
 
-    Calendar.PrintOneDayToTable(Date, gridCalendar, hts, SearchString, &Prepareds);
+    Calendar.PrintOneDayToTable(Date, gridCalendar, hts,
+                                SearchString, &Prepareds, Settings);
     cvCalendar->Invalidate();
 }
 //---------------------------------------------------------------------------
@@ -774,7 +775,8 @@ void __fastcall TfrmMain::ActionCalendarEditExecute(TObject *Sender)
         return;
     }
 
-    float amount = StrToFloatDef( gridCalendar->Cells[5][row], 0);
+
+    double amount = StrToFloatDef( gridCalendar->Cells[5][row], 0);
 
     String res = InputBox(L"Вопрос", L"Кол-во порций\n" + Name + L"\n?", amount);
 
@@ -835,11 +837,14 @@ void __fastcall TfrmMain::ActionCalendarDelExecute(TObject *Sender)
 void __fastcall TfrmMain::ActionSettingsSettingsExecute(TObject *Sender)
 {
     frmSettings->dtpStartDayTime->Time = Settings.StartDayTime;
+
     frmSettings->EditM->Text = Settings.M_Person;
     frmSettings->EditB->Text = Settings.B_udel;
     frmSettings->EditJ->Text = Settings.J_udel;
     frmSettings->EditU->Text = Settings.U_udel;
     frmSettings->EditK->Text = Settings.K_target;
+
+    frmSettings->EditWarningPercent->Text = Settings.WarningPercent;
 
     if ( frmSettings->ShowModal() == mrOk )
     {
@@ -850,6 +855,10 @@ void __fastcall TfrmMain::ActionSettingsSettingsExecute(TObject *Sender)
         Settings.J_udel = frmSettings->EditJ->Text.ToDouble();
         Settings.U_udel = frmSettings->EditU->Text.ToDouble();
         Settings.K_target = frmSettings->EditK->Text.ToDouble();
+
+        Settings.WarningPercent = frmSettings->EditWarningPercent->Text.ToDouble();
+
+        PrintCalendar(this);
     }
 }
 //---------------------------------------------------------------------------
@@ -877,6 +886,8 @@ void TfrmMain::SaveSettings() const
     Ini->WriteFloat("Global", "J_udel",   Settings.J_udel);
     Ini->WriteFloat("Global", "U_udel",   Settings.U_udel);
     Ini->WriteFloat("Global", "K_target", Settings.K_target);
+
+    Ini->WriteFloat("Global", "WarningPercent", Settings.WarningPercent);
 }
 //---------------------------------------------------------------------------
 
@@ -903,6 +914,8 @@ void TfrmMain::LoadSettings()
     Settings.J_udel =   Ini->ReadFloat("Global", "J_udel",   0.8);
     Settings.U_udel =   Ini->ReadFloat("Global", "U_udel",   2.0);
     Settings.K_target = Ini->ReadFloat("Global", "K_target", 1800);
+
+    Settings.WarningPercent = Ini->ReadFloat("Global", "WarningPercent", 80);
 }
 //---------------------------------------------------------------------------
 
@@ -950,4 +963,77 @@ void __fastcall TfrmMain::lbCalendarPreparedsMouseLeave(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TfrmMain::gridCalendarDrawCell(TObject *Sender, int ACol, int ARow,
+          TRect &Rect, TGridDrawState State)
+{
+    auto *grid = dynamic_cast<TStringGrid*>(Sender);
+
+    //grid->Canvas->Font->Color = clBlue;
+    //String s("A");
+    //grid->Canvas->TextRect(Rect, s);
+
+    if (ARow == grid->RowCount - 1)
+    {
+        if (ACol == 1)
+        {
+            double B_remain = StrToFloatDef( gridCalendar->Cells[ACol][ARow], 0);
+            double B_target = StrToFloatDef( gridCalendar->Cells[ACol][ARow-1], 1);
+
+            if (B_remain < 0)
+                grid->Canvas->Brush->Color = clRed;
+            else if (B_remain/B_target < (1.0 - Settings.WarningPercent/100.0))
+                grid->Canvas->Brush->Color = clWebOrange;
+
+            else
+                grid->Canvas->Brush->Color = clGreen;
+        }
+        if (ACol == 2)
+        {
+            double J_remain = StrToFloatDef( gridCalendar->Cells[ACol][ARow], 0);
+            double J_target = StrToFloatDef( gridCalendar->Cells[ACol][ARow-1], 1);
+
+            if (J_remain < 0)
+                grid->Canvas->Brush->Color = clRed;
+            else if (J_remain/J_target < (1.0 - Settings.WarningPercent/100.0))
+                grid->Canvas->Brush->Color = clWebOrange;
+            else
+                grid->Canvas->Brush->Color = clGreen;
+        }
+        if (ACol == 3)
+        {
+            double U_remain = StrToFloatDef( gridCalendar->Cells[ACol][ARow], 0);
+            double U_target = StrToFloatDef( gridCalendar->Cells[ACol][ARow-1], 1);
+
+            if (U_remain < 0)
+                grid->Canvas->Brush->Color = clRed;
+            else if (U_remain/U_target < (1.0 - Settings.WarningPercent/100.0))
+                grid->Canvas->Brush->Color = clWebOrange;
+            else
+                grid->Canvas->Brush->Color = clGreen;
+        }
+        if (ACol == 4)
+        {
+            double K_remain = StrToFloatDef( gridCalendar->Cells[ACol][ARow], 0);
+            double K_target = StrToFloatDef( gridCalendar->Cells[ACol][ARow-1], 1);
+
+            if (K_remain < 0)
+                grid->Canvas->Brush->Color = clRed;
+            else if (K_remain/K_target < (1.0 - Settings.WarningPercent/100.0))
+                grid->Canvas->Brush->Color = clWebOrange;
+            else
+                grid->Canvas->Brush->Color = clGreen;
+        }
+        if (ACol >= 1 && ACol <= 4)
+        {
+            grid->Canvas->FillRect(Rect);
+            String t = grid->Cells[ACol][ARow];
+
+            Rect.Left += 7;
+            Rect.Top += 3;
+            grid->Canvas->TextRect(Rect, t, TTextFormat() /* << tfCenter << tfVerticalCenter */ );  //  tfCalcRect, tfCenter
+        }
+    }
+}
+//---------------------------------------------------------------------------
 

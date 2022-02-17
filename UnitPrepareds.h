@@ -11,12 +11,15 @@
 
 struct BJUKM_Struct : BJUK_Struct
 {
-    float M;
+    float M = 0;
 
-    BJUKM_Struct() : BJUK_Struct(), M(0) {}
+    BJUKM_Struct() : BJUK_Struct() {}
 
     BJUKM_Struct(float _B, float _J, float _U, float _K, float _Cost, float _M) :
         BJUK_Struct(_B, _J, _U, _K, _Cost) , M(_M)  {}
+
+    BJUKM_Struct(const BJUK_Struct &ob) :
+        BJUK_Struct(ob) {}
 
     BJUKM_Struct & operator*=(float k)
     {
@@ -32,6 +35,13 @@ struct BJUKM_Struct : BJUK_Struct
 //        static_cast<BJUK_Struct>(*this) += ob;
         BJUK_Struct::operator+=(ob);
         return *this;
+    }
+
+    BJUKM_Struct operator-(const BJUKM_Struct & ob)
+    {
+        BJUKM_Struct res  = BJUK_Struct::operator-(ob);
+        res.M = M - ob.M;
+        return res;
     }
 };
 

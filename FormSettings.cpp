@@ -73,6 +73,16 @@ void __fastcall TfrmSettings::btnOkClick(TObject *Sender)
     }
     EditK->Text = t;
 
+    t = EditWarningPercent->Text;
+    CorrectDecSeparator(t);
+    double WarningPercent = StrToFloatDef(t, -1);
+    if (WarningPercent < 0 || WarningPercent > 100)
+    {
+        ShowMessage(L"Некорректно задано значение для значения процентов.\n");
+        return;
+    }
+    EditWarningPercent->Text = t;
+
     ModalResult = mrOk;
 }
 //---------------------------------------------------------------------------
@@ -117,7 +127,7 @@ void TfrmSettings::CalcAndPrintFormalK()
 
     double K = (B*4.0 + J*9.0 + U*4.0)*M;
 
-    lblK_formal->Caption = L"Формальная калорийность: " + String(K) + L" ккал" ;
+    lblK_formal->Caption = L"Формальная калорийность: " + String(K) + L" ккал";
 }
 //---------------------------------------------------------------------------
 
@@ -144,4 +154,5 @@ void __fastcall TfrmSettings::EditMChange(TObject *Sender)
     CalcAndPrintFormalK();
 }
 //---------------------------------------------------------------------------
+
 

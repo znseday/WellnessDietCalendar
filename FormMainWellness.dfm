@@ -530,6 +530,7 @@ object frmMain: TfrmMain
         RowCount = 2
         Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowSelect]
         TabOrder = 1
+        OnDrawCell = gridCalendarDrawCell
         OnMouseDown = gridPreparedsMouseDown
       end
       object Panel3: TPanel

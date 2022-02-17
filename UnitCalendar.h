@@ -13,6 +13,7 @@
 
 #include "UnitBases.h"
 #include "UnitPreparedsBuilder.h"
+#include "Misc.h"
 
 
 using OnePreparedPair = std::pair<std::wstring, float>;
@@ -40,9 +41,11 @@ public:
     bool GetIsSaved() const {return IsSaved;}
 
     void ClearTable(TStringGrid *grid) const;
+
     void PrintOneDayToTable(TDate _Date, TStringGrid *grid,
                 HowToSort _SortType, String _SearchString,
-                PreparedsBuilder *pPrepareds) const;
+                const PreparedsBuilder *pPrepareds,
+                const SettingsStruct &_settings) const;
 
     bool SaveToJSON(String _FullFileName);
 

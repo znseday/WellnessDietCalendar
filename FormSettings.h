@@ -27,6 +27,9 @@ __published:	// IDE-managed Components
     TEdit *EditU;
     TLabel *Label6;
     TLabel *lblK_formal;
+    TLabel *Label7;
+    TEdit *EditWarningPercent;
+    TLabel *Label8;
     void __fastcall btnCancelClick(TObject *Sender);
     void __fastcall btnOkClick(TObject *Sender);
     void __fastcall EditBChange(TObject *Sender);
